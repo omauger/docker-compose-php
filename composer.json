@@ -1,0 +1,20 @@
+{
+    "name": "omauger/docker-compose-php",
+    "license": "MIT",
+    "type": "library",
+    "description": "A Docker Compose PHP client",
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "minimum-stability": "stable"
+}
