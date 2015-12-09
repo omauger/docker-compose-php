@@ -28,6 +28,12 @@ class ComposeManager
         $this->processResult($result);
     }
 
+    public function remove()
+    {
+        $result = $this->execute('docker-compose rm');
+        $this->processResult($result);
+    }
+
     private function processResult($result)
     {
         if ($result['returnCode'] === 127) {

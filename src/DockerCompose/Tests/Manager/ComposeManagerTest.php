@@ -33,7 +33,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     {
         $error = 'Can\'t find a suitable configuration file in this directory or any parent. Are you in the right directory?\n';
         $error .= 'Supported filenames: docker-compose.yml, docker-compose.yaml, fig.yml, fig.yaml';
-        $this->manager->method('execute')->willReturn(array('output' => $error, 'returnCode' => 1));
+        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => $error, 'returnCode' => 1));
         $this->manager->start();
     }
 
@@ -46,7 +46,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     {
         $error = 'Couldn\'t connect to Docker daemon at http+docker://localunixsocket - is it running?\n';
         $error .= 'If it\'s at a non-standard location, specify the URL with the DOCKER_HOST environment variable.';
-        $this->manager->method('execute')->willReturn(array('output' => $error, 'returnCode' => 1));
+        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => $error, 'returnCode' => 1));
         $this->manager->start();
     }
 
@@ -57,7 +57,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testStartThrowDockerInstallationMissingException()
     {
-        $this->manager->method('execute')->willReturn(array('output' => '', 'returnCode' => 127));
+        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => '', 'returnCode' => 127));
         $this->manager->start();
     }
 
@@ -92,7 +92,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     {
         $error = 'Couldn\'t connect to Docker daemon at http+docker://localunixsocket - is it running?\n';
         $error .= 'If it\'s at a non-standard location, specify the URL with the DOCKER_HOST environment variable.';
-        $this->manager->method('execute')->willReturn(array('output' => $error, 'returnCode' => 1));
+        $this->manager->method('execute')->with('docker-compose stop')->willReturn(array('output' => $error, 'returnCode' => 1));
         $this->manager->stop();
     }
 
@@ -103,7 +103,53 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testStopThrowDockerInstallationMissingException()
     {
-        $this->manager->method('execute')->willReturn(array('output' => '', 'returnCode' => 127));
+        $this->manager->method('execute')->with('docker-compose stop')->willReturn(array('output' => '', 'returnCode' => 127));
         $this->manager->stop();
+    }
+
+    /**
+     *  Test remove whithout error
+     */
+    public function testRemove()
+    {
+        $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => 'ok', 'returnCode' => 0));
+        $this->manager->remove();
+    }
+
+    /**
+     * Test remove with ComposeFileNotFoundException
+     *
+     * @expectedException \DockerCompose\Exception\ComposeFileNotFoundException
+     */
+    public function testRemoveThrowComposeFileNotFound()
+    {
+        $error = 'Can\'t find a suitable configuration file in this directory or any parent. Are you in the right directory?\n';
+        $error .= 'Supported filenames: docker-compose.yml, docker-compose.yaml, fig.yml, fig.yaml';
+        $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => $error, 'returnCode' => 1));
+        $this->manager->remove();
+    }
+
+    /**
+     * Test remove with DockerHostConnexionErrorException
+     *
+     * @expectedException \DockerCompose\Exception\DockerHostConnexionErrorException
+     */
+    public function testRemoveThrowDockerHostConnexionErrorException()
+    {
+        $error = 'Couldn\'t connect to Docker daemon at http+docker://localunixsocket - is it running?\n';
+        $error .= 'If it\'s at a non-standard location, specify the URL with the DOCKER_HOST environment variable.';
+        $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => $error, 'returnCode' => 1));
+        $this->manager->remove();
+    }
+
+    /**
+     * Test remove with DockerInstallationMissingException
+     *
+     * @expectedException \DockerCompose\Exception\DockerInstallationMissingException
+     */
+    public function testRemoveThrowDockerInstallationMissingException()
+    {
+        $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => '', 'returnCode' => 127));
+        $this->manager->remove();
     }
 }
