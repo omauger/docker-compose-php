@@ -10,4 +10,10 @@ pull:
 tests:
   type: tests
   script:
+  - ./scripts/prepare.sh
   - ./scripts/tests.sh
+
+clean:
+  type: clean
+  - docker run --rm -v $PWD:$PWD -w $PWD busybox rm -Rf vendor composer.lock
+  when: always
