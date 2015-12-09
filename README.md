@@ -28,6 +28,12 @@ Usage
 -----
 
 ### Start
+#### Method `start()`
+
+#### Parameters
+* composeFiles : One docker-compose file in string or an array of docker-compose files names (optionnal, default [])
+
+#### Examples
 ```
 $manager = ComposeManager();
 $manager->start() # This will run the command 'docker-compose up -d'
@@ -36,6 +42,12 @@ $manager->start(['docker-compose.yml', 'docker-compose.dev.yml']) # This will ru
 ```
 
 ### Stop
+#### Method `stop()`
+
+#### Parameters
+* composeFiles : One docker-compose file in string or an array of docker-compose files names (optionnal, default [])
+
+#### Examples
 ```
 $manager = ComposeManager();
 $manager->stop() # This will run the command 'docker-compose stop'
@@ -44,6 +56,12 @@ $manager->stop(['docker-compose.yml', 'docker-compose.dev.yml']) # This will run
 ```
 
 ### RM
+#### Method `remove()`
+
+#### Parameters
+* composeFiles : One docker-compose file in string or an array of docker-compose files names (optionnal, default [])
+* force : If we have to force the remove (optionnal, default false)
+* removeVolumes : If we have to remove persistent volumes (optionnal, default false)
 ```
 $manager = ComposeManager();
 $manager->remove() # This will run the command 'docker-compose rm'
