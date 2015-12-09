@@ -43,7 +43,9 @@ class ComposeManager
     /**
      * Stop service containers
      *
-     * @param mixed $composeFiles The compose files names
+     * @param mixed   $composeFiles  The compose files names
+     * @param boolean $force         If the remove need to be force (default=false)
+     * @param boolean $removeVolumes If we need to remove the volumes (default=false)
      */
     public function remove($composeFiles=array(), $force=false, $removeVolumes=false)
     {
@@ -90,6 +92,12 @@ class ComposeManager
         }
     }
 
+    /**
+     * Format the command to execute
+     *
+     * @param string                $subcommand   The subcommand to pass to docker-compose command
+     * @param ComposeFileCollection $composeFiles The compose files to precise in the command
+     */
     private function formatCommand($subcommand, ComposeFileCollection $composeFiles)
     {
         $preciseFiles = '';
