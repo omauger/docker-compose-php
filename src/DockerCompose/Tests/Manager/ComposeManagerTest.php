@@ -25,6 +25,26 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test start success with one compose file
+     */
+    public function testStartWithOneComposeFileSpecified()
+    {
+
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml up -d')->willReturn(array('output' => 'ok', 'returnCode' => 0));
+        $this->manager->start('docker-compose.test.yml');
+    }
+
+    /**
+     * Test start success with two compose files
+     */
+    public function testStartWithTwoComposeFilesSpecified()
+    {
+
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d')->willReturn(array('output' => 'ok', 'returnCode' => 0));
+        $this->manager->start(['docker-compose.yml', 'docker-compose.test.yml']);
+    }
+
+    /**
      * Test start with ComposeFileNotFoundException
      *
      * @expectedException \DockerCompose\Exception\ComposeFileNotFoundException
@@ -71,6 +91,26 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test stop success with one compose file
+     */
+    public function testStopWithOneComposeFileSpecified()
+    {
+
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml stop')->willReturn(array('output' => 'ok', 'returnCode' => 0));
+        $this->manager->stop('docker-compose.test.yml');
+    }
+
+    /**
+     * Test stop success with two compose files
+     */
+    public function testStopWithTwoComposeFilesSpecified()
+    {
+
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml stop')->willReturn(array('output' => 'ok', 'returnCode' => 0));
+        $this->manager->stop(['docker-compose.yml', 'docker-compose.test.yml']);
+    }
+
+    /**
      * Test stop with ComposeFileNotFoundException
      *
      * @expectedException \DockerCompose\Exception\ComposeFileNotFoundException
@@ -114,6 +154,26 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     {
         $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => 'ok', 'returnCode' => 0));
         $this->manager->remove();
+    }
+
+    /**
+     * Test remove success with one compose file
+     */
+    public function testRemoveWithOneComposeFileSpecified()
+    {
+
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml rm')->willReturn(array('output' => 'ok', 'returnCode' => 0));
+        $this->manager->remove('docker-compose.test.yml');
+    }
+
+    /**
+     * Test remove success with two compose files
+     */
+    public function testRemoveWithTwoComposeFilesSpecified()
+    {
+
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml rm')->willReturn(array('output' => 'ok', 'returnCode' => 0));
+        $this->manager->remove(['docker-compose.yml', 'docker-compose.test.yml']);
     }
 
     /**

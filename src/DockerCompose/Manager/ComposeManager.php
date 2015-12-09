@@ -5,6 +5,7 @@ namespace DockerCompose\Manager;
 use DockerCompose\Exception\ComposeFileNotFoundException;
 use DockerCompose\Exception\DockerHostConnexionErrorException;
 use DockerCompose\Exception\DockerInstallationMissingException;
+use DockerCompose\ComposeFileCollection;
 use Exception;
 
 /**
@@ -15,25 +16,51 @@ class ComposeManager
 
     /**
      * Start service containers
+     *
+     * @param mixed $composeFiles The compose files names
      */
-    public function start()
+    public function start($composeFiles=array())
     {
-        $result = $this->execute('docker-compose up -d');
+        $result = $this->execute(
+            $this->formatCommand('up -d', new ComposeFileCollection($composeFiles))
+        );
         $this->processResult($result);
     }
 
-    public function stop()
+    /**
+     * Stop service containers
+     *
+     * @param mixed $composeFiles The compose files names
+     */
+    public function stop($composeFiles=array())
     {
-        $result = $this->execute('docker-compose stop');
+        $result = $this->execute(
+            $this->formatCommand('stop', new ComposeFileCollection($composeFiles))
+        );
         $this->processResult($result);
     }
 
-    public function remove()
+    /**
+     * Stop service containers
+     *
+     * @param mixed $composeFiles The compose files names
+     */
+    public function remove($composeFiles=array())
     {
-        $result = $this->execute('docker-compose rm');
+        $result = $this->execute(
+            $this->formatCommand('rm', new ComposeFileCollection($composeFiles))
+        );
         $this->processResult($result);
     }
 
+    /**
+     * Process result with returned code and output
+     *
+     * @throws DockerInstallationMissingException When returned code is 127
+     * @throws ComposeFileNotFoundException When no compose file precise and docker-compose.yml not found
+     * @throws DockerHostConnexionErrorException When we can't connect to docker host
+     * @throws \Exception When an unknown error is returned
+     */
     private function processResult($result)
     {
         if ($result['returnCode'] === 127) {
@@ -54,6 +81,24 @@ class ComposeManager
         }
     }
 
+    private function formatCommand($subcommand, ComposeFileCollection $composeFiles)
+    {
+        $preciseFiles = '';
+        foreach ($composeFiles->getAll() as $composeFile) {
+            $preciseFiles .= '-f ' . $composeFile->getFileName() . ' ';
+        }
+
+        $command = 'docker-compose ' . $preciseFiles . $subcommand;
+
+        return $command;
+    }
+
+    /**
+     * Execute docker-compose commande
+     *
+     * @param string                $command      The command to execute
+     * @param ComposeFileCollection $composeFiles The compose files to use for command
+     */
     protected function execute($command)
     {
         $command = system($command . ' > output 2>&1', $retval);
