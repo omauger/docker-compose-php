@@ -45,14 +45,14 @@ class ComposeManager
      *
      * @param mixed $composeFiles The compose files names
      */
-    public function remove($composeFiles=array(), $force=false, $remove_volumes=false)
+    public function remove($composeFiles=array(), $force=false, $removeVolumes=false)
     {
         $command = 'rm';
         if ($force) {
             $command .= ' -f';
         }
 
-        if ($remove_volumes) {
+        if ($removeVolumes) {
             $command .= ' -v';
         }
 
