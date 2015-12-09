@@ -45,10 +45,15 @@ class ComposeManager
      *
      * @param mixed $composeFiles The compose files names
      */
-    public function remove($composeFiles=array())
+    public function remove($composeFiles=array(), $force=false)
     {
+        $command = 'rm';
+        if ($force) {
+            $command .= ' -f';
+        }
+
         $result = $this->execute(
-            $this->formatCommand('rm', new ComposeFileCollection($composeFiles))
+            $this->formatCommand($command, new ComposeFileCollection($composeFiles), $extraArgs)
         );
         $this->processResult($result);
     }

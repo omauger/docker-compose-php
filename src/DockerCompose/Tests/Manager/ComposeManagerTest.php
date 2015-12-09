@@ -157,6 +157,15 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     *  Test remove force
+     */
+    public function testRemoveForce()
+    {
+        $this->manager->method('execute')->with('docker-compose rm -f')->willReturn(array('output' => 'ok', 'returnCode' => 0));
+        $this->manager->remove([], true);
+    }
+
+    /**
      * Test remove success with one compose file
      */
     public function testRemoveWithOneComposeFileSpecified()
