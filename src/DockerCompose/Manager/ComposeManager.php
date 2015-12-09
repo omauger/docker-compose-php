@@ -19,7 +19,17 @@ class ComposeManager
     public function start()
     {
         $result = $this->execute('docker-compose up -d');
+        $this->processResult($result);
+    }
 
+    public function stop()
+    {
+        $result = $this->execute('docker-compose stop');
+        $this->processResult($result);
+    }
+
+    private function processResult($result)
+    {
         if ($result['returnCode'] === 127) {
             throw new DockerInstallationMissingException();
         }
