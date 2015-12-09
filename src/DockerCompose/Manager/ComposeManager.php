@@ -21,8 +21,12 @@ class ComposeManager
      */
     public function start($composeFiles = array())
     {
+        if (!$composeFiles instanceof ComposeFileCollection) {
+            $composeFiles = new ComposeFileCollection($composeFiles);
+        }
+
         $result = $this->execute(
-            $this->formatCommand('up -d', new ComposeFileCollection($composeFiles))
+            $this->formatCommand('up -d', $composeFiles)
         );
 
         return $this->processResult($result);
@@ -35,8 +39,12 @@ class ComposeManager
      */
     public function stop($composeFiles = array())
     {
+        if (!$composeFiles instanceof ComposeFileCollection) {
+            $composeFiles = new ComposeFileCollection($composeFiles);
+        }
+
         $result = $this->execute(
-            $this->formatCommand('stop', new ComposeFileCollection($composeFiles))
+            $this->formatCommand('stop', $composeFiles)
         );
 
         return $this->processResult($result);
@@ -51,9 +59,13 @@ class ComposeManager
      */
     public function remove($composeFiles = array(), $force = false, $removeVolumes = false)
     {
+        if (!$composeFiles instanceof ComposeFileCollection) {
+            $composeFiles = new ComposeFileCollection($composeFiles);
+        }
+
         $command = 'rm';
         if ($force) {
-            $command .= ' -f';
+            $command .= ' --force';
         }
 
         if ($removeVolumes) {
@@ -61,7 +73,7 @@ class ComposeManager
         }
 
         $result = $this->execute(
-            $this->formatCommand($command, new ComposeFileCollection($composeFiles))
+            $this->formatCommand($command, $composeFiles)
         );
 
         return $this->processResult($result);
@@ -106,12 +118,27 @@ class ComposeManager
      */
     private function formatCommand($subcommand, ComposeFileCollection $composeFiles)
     {
-        $preciseFiles = '';
-        foreach ($composeFiles->getAll() as $composeFile) {
-            $preciseFiles .= '-f ' . $composeFile->getFileName() . ' ';
+        $project = '';
+        $networking = '';
+        $networkDriver = '';
+        # Add project name, and network options
+        if ($composeFiles->getProjectName() != null) {
+            $project = ' --project-name ' . $composeFiles->getProjectName();
+            if ($composeFiles->isNetworking()) {
+                $networking = ' --x-networking';
+                if ($composeFiles->getNetworkDriver() != null) {
+                    $networkDriver = ' --x-network-driver ' . $composeFiles->getNetworkDriver();
+                }
+            }
         }
 
-        $command = 'docker-compose ' . $preciseFiles . $subcommand;
+        # Add files names
+        $preciseFiles = '';
+        foreach ($composeFiles->getAll() as $composeFile) {
+            $preciseFiles .= ' -f ' . $composeFile->getFileName();
+        }
+
+        $command = 'docker-compose' . $preciseFiles . $networking . $networkDriver . $project . ' ' .$subcommand;
 
         return $command;
     }

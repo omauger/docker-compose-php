@@ -3,6 +3,7 @@
 namespace DockerCompose\Tests\Manager;
 
 use PHPUnit_Framework_TestCase;
+use DockerCompose\ComposeFileCollection;
 
 
 class ComposeManagerTest extends PHPUnit_Framework_TestCase
@@ -42,6 +43,42 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
 
         $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d')->willReturn(array('output' => 'ok', 'code' => 0));
         $this->assertEquals($this->manager->start(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
+    }
+
+    /**
+     * Test start with project option
+     */
+    public function testStartWithprojectOption()
+    {
+        $composeFiles = new ComposeFileCollection('docker-compose.test.yml');
+        $composeFiles->setProjectName('unittest');
+
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml --project-name unittest up -d')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->start($composeFiles), 'ok');
+    }
+
+    /**
+     * Test start with project and networking option
+     */
+    public function testStartWithprojectAndNetworkingOption()
+    {
+        $composeFiles = new ComposeFileCollection('docker-compose.test.yml');
+        $composeFiles->setProjectName('unittest')->setIsNetworking(true);
+
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml --x-networking --project-name unittest up -d')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->start($composeFiles), 'ok');
+    }
+
+    /**
+     * Test start with project, networking and network driver option
+     */
+    public function testStartWithprojectAndNetworkingWithDriverOption()
+    {
+        $composeFiles = new ComposeFileCollection('docker-compose.test.yml');
+        $composeFiles->setProjectName('unittest')->setIsNetworking(true)->setNetworkDriver('overlay');
+
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml --x-networking --x-network-driver overlay --project-name unittest up -d')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->start($composeFiles), 'ok');
     }
 
     /**
@@ -161,7 +198,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testRemoveForce()
     {
-        $this->manager->method('execute')->with('docker-compose rm -f')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->manager->method('execute')->with('docker-compose rm --force')->willReturn(array('output' => 'ok', 'code' => 0));
         $this->assertEquals($this->manager->remove([], true), 'ok');
     }
 
@@ -179,7 +216,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testRemoveForceAndVolumes()
     {
-        $this->manager->method('execute')->with('docker-compose rm -f -v')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->manager->method('execute')->with('docker-compose rm --force -v')->willReturn(array('output' => 'ok', 'code' => 0));
         $this->assertEquals($this->manager->remove([], true, true), 'ok');
     }
 

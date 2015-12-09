@@ -13,6 +13,21 @@ class ComposeFileCollection
     private $composeFiles = [];
 
     /**
+     * @var projectName
+     */
+    private $projectName;
+
+    /**
+     * @var isNetworking
+     */
+    private $isNetworking = false;
+
+    /**
+     * @var networkingDriver
+     */
+    private $networkDriver = null;
+
+    /**
      * @param array of string or ComposeFile
      *
      * @throws \Exception When a composeFile definition is invalid
@@ -41,6 +56,8 @@ class ComposeFileCollection
                 }
             }
         }
+
+        return $this;
     }
 
     /**
@@ -60,5 +77,56 @@ class ComposeFileCollection
     {
         $this->composeFiles[] = $composeFile;
         return $this;
+    }
+
+    /**
+     * Set Project Name
+     */
+    public function setProjectName($projectName)
+    {
+        $this->projectName = $projectName;
+        return $this;
+    }
+
+    /**
+     * Get Project Name
+     */
+    public function getProjectName()
+    {
+        return $this->projectName;
+    }
+
+    /**
+     * Set is Networking
+     */
+    public function setIsNetworking($isNetworking)
+    {
+        $this->isNetworking = $isNetworking;
+        return $this;
+    }
+
+    /**
+     * Get if is Networking
+     */
+    public function isNetworking()
+    {
+        return $this->isNetworking;
+    }
+
+    /**
+     * Set Networking driver
+     */
+    public function setNetworkDriver($networkDriver)
+    {
+        $this->networkDriver = $networkDriver;
+        return $this;
+    }
+
+    /**
+     * Get networking driver
+     */
+    public function getNetworkDriver()
+    {
+        return $this->networkDriver;
     }
 }

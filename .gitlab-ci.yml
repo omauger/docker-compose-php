@@ -1,6 +1,7 @@
 stages:
 - pull
 - tests
+- clean
 
 pull:
   type: pull
