@@ -39,6 +39,11 @@ $manager = ComposeManager();
 $manager->start() # This will run the command 'docker-compose up -d'
 $manager->start('docker-compose.dev.yml') # This will run the command 'docker-compose -f docker-compose.dev.yml up -d'
 $manager->start(['docker-compose.yml', 'docker-compose.dev.yml']) # This will run the command 'docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d'
+
+# Example with project name and network options
+$composeFiles = new DockerCompose\ComposeFileCollection('docker-compose.yml');
+$composeFiles->setProjectName('myproject')->setNetworking(true)->setNetworkDriver('overlay');
+$manager->start($composeFiles);
 ```
 
 ### Stop
@@ -53,6 +58,11 @@ $manager = ComposeManager();
 $manager->stop() # This will run the command 'docker-compose stop'
 $manager->stop('docker-compose.dev.yml') # This will run the command 'docker-compose -f docker-compose.dev.yml stop'
 $manager->stop(['docker-compose.yml', 'docker-compose.dev.yml']) # This will run the command 'docker-compose -f docker-compose.yml -f docker-compose.dev.yml stop'
+
+# Example with project name and network options
+$composeFiles = new DockerCompose\ComposeFileCollection('docker-compose.yml');
+$composeFiles->setProjectName('myproject')->setNetworking(true)->setNetworkDriver('overlay');
+$manager->stop($composeFiles);
 ```
 
 ### RM
@@ -72,6 +82,11 @@ $manager->remove(['docker-compose.yml', 'docker-compose.dev.yml']) # This will r
 $manager->remove([], true) # This will run the command 'docker-compose rm -f' to force rm container even if are started
 $manager->remove([], false, true) # This will run the command 'docker-compose rm -v' to remove persistent volumes
 $manager->remove([], true, true) # This will run the command 'docker-compose rm -f -v'
+
+# Example with project name and network options
+$composeFiles = new DockerCompose\ComposeFileCollection('docker-compose.yml');
+$composeFiles->setProjectName('myproject')->setNetworking(true)->setNetworkDriver('overlay');
+$manager->remove($composeFiles);
 ```
 
 All methods return the output result if it is a success.
