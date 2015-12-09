@@ -61,7 +61,7 @@ class ComposeManager
         }
 
         $result = $this->execute(
-            $this->formatCommand($command, new ComposeFileCollection($composeFiles), $extraArgs)
+            $this->formatCommand($command, new ComposeFileCollection($composeFiles))
         );
 
         return $this->processResult($result);

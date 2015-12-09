@@ -1,0 +1,13 @@
+stages:
+- pull
+- tests
+
+pull:
+  type: pull
+  script:
+  - docker pull jolicode/phaudit:latest
+
+tests:
+  type: tests
+  script:
+  - ./scripts/tests.sh

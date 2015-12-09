@@ -79,7 +79,7 @@ All methods return the output result if it is a success.
 Run tests
 ---------
 ```
-tests.sh
+./scripts/tests.sh
 ```
 
 Contributing
