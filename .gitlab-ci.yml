@@ -16,5 +16,6 @@ tests:
 
 clean:
   type: clean
+  script:
   - docker run --rm -v $PWD:$PWD -w $PWD busybox rm -Rf vendor composer.lock
   when: always
