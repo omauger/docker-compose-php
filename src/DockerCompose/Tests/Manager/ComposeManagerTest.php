@@ -84,6 +84,18 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     /**
      * Test start with ComposeFileNotFoundException
      *
+     * @expectedException \Exception
+     */
+    public function testStartThrowExceptionForDriver()
+    {
+        $composeFiles = new ComposeFileCollection('docker-compose.test.yml');
+        $composeFiles->setProjectName('unittest')->setIsNetworking(true)->setNetworkDriver('boom');
+        $this->manager->start();
+    }
+
+    /**
+     * Test start with ComposeFileNotFoundException
+     *
      * @expectedException \DockerCompose\Exception\ComposeFileNotFoundException
      */
     public function testStartThrowComposeFileNotFound()

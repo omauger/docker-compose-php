@@ -2,6 +2,8 @@
 
 namespace DockerCompose;
 
+use Exception;
+
 /**
  * DockerCompose\ComposeFileCollection
  */
@@ -115,9 +117,15 @@ class ComposeFileCollection
 
     /**
      * Set Networking driver
+     *
+     * @throws Exception When $networkDriver is not a valid driver
      */
     public function setNetworkDriver($networkDriver)
     {
+        if ($networkDriver != 'overlay' && $networkDriver != 'bridge' && $networkDriver != 'host') {
+            throw new Exception($networkDriver . ' is not a valid driver.');
+        }
+
         $this->networkDriver = $networkDriver;
         return $this;
     }

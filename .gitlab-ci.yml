@@ -7,7 +7,7 @@ pull:
   type: pull
   script:
   - docker pull jolicode/phaudit:latest
-  - docker pull composer/composer
+  - docker pull composer/composer:latest
 
 tests:
   type: tests
