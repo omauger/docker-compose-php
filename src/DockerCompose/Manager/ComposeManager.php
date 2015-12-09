@@ -24,7 +24,8 @@ class ComposeManager
         $result = $this->execute(
             $this->formatCommand('up -d', new ComposeFileCollection($composeFiles))
         );
-        $this->processResult($result);
+
+        return $this->processResult($result);
     }
 
     /**
@@ -37,7 +38,8 @@ class ComposeManager
         $result = $this->execute(
             $this->formatCommand('stop', new ComposeFileCollection($composeFiles))
         );
-        $this->processResult($result);
+
+        return $this->processResult($result);
     }
 
     /**
@@ -61,11 +63,14 @@ class ComposeManager
         $result = $this->execute(
             $this->formatCommand($command, new ComposeFileCollection($composeFiles), $extraArgs)
         );
-        $this->processResult($result);
+
+        return $this->processResult($result);
     }
 
     /**
      * Process result with returned code and output
+     *
+     * @param array $result The result of command with output and returnCode
      *
      * @throws DockerInstallationMissingException When returned code is 127
      * @throws ComposeFileNotFoundException When no compose file precise and docker-compose.yml not found
@@ -74,11 +79,11 @@ class ComposeManager
      */
     private function processResult($result)
     {
-        if ($result['returnCode'] === 127) {
+        if ($result['code'] === 127) {
             throw new DockerInstallationMissingException();
         }
 
-        if ($result['returnCode'] === 1) {
+        if ($result['code'] === 1) {
             if (!strpos($result['output'], 'DOCKER_HOST')) {
                 if (!strpos($result['output'], 'docker-compose.yml')) {
                     throw new Exception($result['output']);
@@ -88,8 +93,9 @@ class ComposeManager
             } else {
                 throw new DockerHostConnexionErrorException();
             }
-
         }
+
+        return $result['output'];
     }
 
     /**
@@ -126,7 +132,7 @@ class ComposeManager
 
         return array(
             'output' => $output,
-            'returnCode' => $retval
+            'code' => $retval
         );
     }
 }

@@ -20,8 +20,8 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     public function testStart()
     {
 
-        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => 'ok', 'returnCode' => 0));
-        $this->manager->start();
+        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->start(), 'ok');
     }
 
     /**
@@ -30,8 +30,8 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     public function testStartWithOneComposeFileSpecified()
     {
 
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml up -d')->willReturn(array('output' => 'ok', 'returnCode' => 0));
-        $this->manager->start('docker-compose.test.yml');
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml up -d')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->start('docker-compose.test.yml'), 'ok');
     }
 
     /**
@@ -40,8 +40,8 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     public function testStartWithTwoComposeFilesSpecified()
     {
 
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d')->willReturn(array('output' => 'ok', 'returnCode' => 0));
-        $this->manager->start(['docker-compose.yml', 'docker-compose.test.yml']);
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->start(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
     }
 
     /**
@@ -53,7 +53,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     {
         $error = 'Can\'t find a suitable configuration file in this directory or any parent. Are you in the right directory?\n';
         $error .= 'Supported filenames: docker-compose.yml, docker-compose.yaml, fig.yml, fig.yaml';
-        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => $error, 'returnCode' => 1));
+        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => $error, 'code' => 1));
         $this->manager->start();
     }
 
@@ -66,7 +66,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     {
         $error = 'Couldn\'t connect to Docker daemon at http+docker://localunixsocket - is it running?\n';
         $error .= 'If it\'s at a non-standard location, specify the URL with the DOCKER_HOST environment variable.';
-        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => $error, 'returnCode' => 1));
+        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => $error, 'code' => 1));
         $this->manager->start();
     }
 
@@ -77,7 +77,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testStartThrowDockerInstallationMissingException()
     {
-        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => '', 'returnCode' => 127));
+        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => '', 'code' => 127));
         $this->manager->start();
     }
 
@@ -86,8 +86,8 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testStop()
     {
-        $this->manager->method('execute')->with('docker-compose stop')->willReturn(array('output' => 'ok', 'returnCode' => 0));
-        $this->manager->stop();
+        $this->manager->method('execute')->with('docker-compose stop')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->stop(), 'ok');
     }
 
     /**
@@ -96,8 +96,8 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     public function testStopWithOneComposeFileSpecified()
     {
 
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml stop')->willReturn(array('output' => 'ok', 'returnCode' => 0));
-        $this->manager->stop('docker-compose.test.yml');
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml stop')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->stop('docker-compose.test.yml'), 'ok');
     }
 
     /**
@@ -106,8 +106,8 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     public function testStopWithTwoComposeFilesSpecified()
     {
 
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml stop')->willReturn(array('output' => 'ok', 'returnCode' => 0));
-        $this->manager->stop(['docker-compose.yml', 'docker-compose.test.yml']);
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml stop')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->stop(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
     }
 
     /**
@@ -119,7 +119,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     {
         $error = 'Can\'t find a suitable configuration file in this directory or any parent. Are you in the right directory?\n';
         $error .= 'Supported filenames: docker-compose.yml, docker-compose.yaml, fig.yml, fig.yaml';
-        $this->manager->method('execute')->with('docker-compose stop')->willReturn(array('output' => $error, 'returnCode' => 1));
+        $this->manager->method('execute')->with('docker-compose stop')->willReturn(array('output' => $error, 'code' => 1));
         $this->manager->stop();
     }
 
@@ -132,7 +132,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     {
         $error = 'Couldn\'t connect to Docker daemon at http+docker://localunixsocket - is it running?\n';
         $error .= 'If it\'s at a non-standard location, specify the URL with the DOCKER_HOST environment variable.';
-        $this->manager->method('execute')->with('docker-compose stop')->willReturn(array('output' => $error, 'returnCode' => 1));
+        $this->manager->method('execute')->with('docker-compose stop')->willReturn(array('output' => $error, 'code' => 1));
         $this->manager->stop();
     }
 
@@ -143,7 +143,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testStopThrowDockerInstallationMissingException()
     {
-        $this->manager->method('execute')->with('docker-compose stop')->willReturn(array('output' => '', 'returnCode' => 127));
+        $this->manager->method('execute')->with('docker-compose stop')->willReturn(array('output' => '', 'code' => 127));
         $this->manager->stop();
     }
 
@@ -152,8 +152,8 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testRemove()
     {
-        $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => 'ok', 'returnCode' => 0));
-        $this->manager->remove();
+        $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->remove(), 'ok');
     }
 
     /**
@@ -161,8 +161,8 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testRemoveForce()
     {
-        $this->manager->method('execute')->with('docker-compose rm -f')->willReturn(array('output' => 'ok', 'returnCode' => 0));
-        $this->manager->remove([], true);
+        $this->manager->method('execute')->with('docker-compose rm -f')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->remove([], true), 'ok');
     }
 
     /**
@@ -170,8 +170,8 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testRemoveVolumes()
     {
-        $this->manager->method('execute')->with('docker-compose rm -v')->willReturn(array('output' => 'ok', 'returnCode' => 0));
-        $this->manager->remove([], false, true);
+        $this->manager->method('execute')->with('docker-compose rm -v')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->remove([], false, true), 'ok');
     }
 
     /**
@@ -179,8 +179,8 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testRemoveForceAndVolumes()
     {
-        $this->manager->method('execute')->with('docker-compose rm -f -v')->willReturn(array('output' => 'ok', 'returnCode' => 0));
-        $this->manager->remove([], true, true);
+        $this->manager->method('execute')->with('docker-compose rm -f -v')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->remove([], true, true), 'ok');
     }
 
     /**
@@ -189,8 +189,8 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     public function testRemoveWithOneComposeFileSpecified()
     {
 
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml rm')->willReturn(array('output' => 'ok', 'returnCode' => 0));
-        $this->manager->remove('docker-compose.test.yml');
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml rm')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->remove('docker-compose.test.yml'), 'ok');
     }
 
     /**
@@ -199,8 +199,8 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     public function testRemoveWithTwoComposeFilesSpecified()
     {
 
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml rm')->willReturn(array('output' => 'ok', 'returnCode' => 0));
-        $this->manager->remove(['docker-compose.yml', 'docker-compose.test.yml']);
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml rm')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->remove(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
     }
 
     /**
@@ -212,7 +212,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     {
         $error = 'Can\'t find a suitable configuration file in this directory or any parent. Are you in the right directory?\n';
         $error .= 'Supported filenames: docker-compose.yml, docker-compose.yaml, fig.yml, fig.yaml';
-        $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => $error, 'returnCode' => 1));
+        $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => $error, 'code' => 1));
         $this->manager->remove();
     }
 
@@ -225,7 +225,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     {
         $error = 'Couldn\'t connect to Docker daemon at http+docker://localunixsocket - is it running?\n';
         $error .= 'If it\'s at a non-standard location, specify the URL with the DOCKER_HOST environment variable.';
-        $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => $error, 'returnCode' => 1));
+        $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => $error, 'code' => 1));
         $this->manager->remove();
     }
 
@@ -236,7 +236,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testRemoveThrowDockerInstallationMissingException()
     {
-        $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => '', 'returnCode' => 127));
+        $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => '', 'code' => 127));
         $this->manager->remove();
     }
 }
