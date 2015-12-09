@@ -19,7 +19,7 @@ class ComposeManager
      *
      * @param mixed $composeFiles The compose files names
      */
-    public function start($composeFiles=array())
+    public function start($composeFiles = array())
     {
         $result = $this->execute(
             $this->formatCommand('up -d', new ComposeFileCollection($composeFiles))
@@ -33,7 +33,7 @@ class ComposeManager
      *
      * @param mixed $composeFiles The compose files names
      */
-    public function stop($composeFiles=array())
+    public function stop($composeFiles = array())
     {
         $result = $this->execute(
             $this->formatCommand('stop', new ComposeFileCollection($composeFiles))
@@ -49,7 +49,7 @@ class ComposeManager
      * @param boolean $force         If the remove need to be force (default=false)
      * @param boolean $removeVolumes If we need to remove the volumes (default=false)
      */
-    public function remove($composeFiles=array(), $force=false, $removeVolumes=false)
+    public function remove($composeFiles = array(), $force = false, $removeVolumes = false)
     {
         $command = 'rm';
         if ($force) {

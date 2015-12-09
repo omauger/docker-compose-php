@@ -30,7 +30,14 @@ class ComposeFileCollection
                 } elseif (is_string($composeFile)) {
                     $this->add(new ComposeFile($composeFile));
                 } else {
-                    throw new \Exception('Invalid composeFile definition "('.gettype($composeFile).') '.var_export($composeFile, true).'"');
+                    throw new \Exception(
+                        'Invalid composeFile definition "('.gettype(
+                            $composeFile
+                        ).') '.var_export(
+                            $composeFile,
+                            true
+                        ).'"'
+                    );
                 }
             }
         }
@@ -54,5 +61,4 @@ class ComposeFileCollection
         $this->composeFiles[] = $composeFile;
         return $this;
     }
-
 }
