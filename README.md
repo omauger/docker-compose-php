@@ -57,6 +57,25 @@ $manager->start($composeFiles);
 ```
 
 ### RUN
+#### Method `run()`
+
+#### Parameters
+* service : the service name from docker-compose file to run
+* command : the command to execute to this service
+* composeFiles : One docker-compose file in string or an array of docker-compose files names (optionnal, default [])
+
+#### Examples
+```
+$manager = ComposeManager();
+$manager->run('composer', 'install') # This will run the command 'docker-compose run --rm composer install'
+$manager->run('composer', 'install', docker-compose.dev.yml') # This will run the command 'docker-compose -f docker-compose.dev.yml run --rm composer install'
+$manager->run('composer', 'install', ['docker-compose.yml', 'docker-compose.dev.yml']) # This will run the command 'docker-compose -f docker-compose.yml -f docker-compose.dev.yml run --rm composer install'
+
+# Example with project name and network options
+$composeFiles = new DockerCompose\ComposeFileCollection('docker-compose.yml');
+$composeFiles->setProjectName('myproject')->setNetworking(true)->setNetworkDriver('overlay');
+$manager->run('composer', 'install', $composeFiles);
+```
 
 ### Stop
 #### Method `stop()`
