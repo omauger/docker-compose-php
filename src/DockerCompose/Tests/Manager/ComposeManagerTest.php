@@ -313,7 +313,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
         $composeFiles = new ComposeFileCollection('docker-compose.test.yml');
         $composeFiles->setProjectName('unittest')->setIsNetworking(true)->setNetworkDriver('overlay');
 
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml --x-networking --x-network-driver overlay --project-name unittest run test mycommand')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml --x-networking --x-network-driver overlay --project-name unittest run --rm test mycommand')->willReturn(array('output' => 'ok', 'code' => 0));
         $this->assertEquals($this->manager->run('test', 'mycommand', $composeFiles), 'ok');
     }
 }
