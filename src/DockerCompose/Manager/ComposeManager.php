@@ -5,6 +5,7 @@ namespace DockerCompose\Manager;
 use DockerCompose\Exception\ComposeFileNotFoundException;
 use DockerCompose\Exception\DockerHostConnexionErrorException;
 use DockerCompose\Exception\DockerInstallationMissingException;
+use DockerCompose\Exception\NoSuchServiceException;
 use DockerCompose\ComposeFileCollection;
 use Exception;
 
@@ -75,6 +76,33 @@ class ComposeManager
         $result = $this->execute(
             $this->formatCommand($command, $composeFiles)
         );
+
+        return $this->processResult($result);
+    }
+
+    /**
+     * Run service with command
+     *
+     * @param string $service Service name
+     * @param string $command Command to pass to service
+     * @param mixed   $composeFiles  The compose files names
+     */
+    public function run($service, $command, $composeFiles = array())
+    {
+        if (!$composeFiles instanceof ComposeFileCollection) {
+            $composeFiles = new ComposeFileCollection($composeFiles);
+        }
+
+
+
+        $command = 'run --rm ' . $service . ' ' . $command;
+        $result = $this->execute(
+            $this->formatCommand($command, $composeFiles)
+        );
+
+        if ($result['code'] == 1 && strpos($result['output'], 'No such service') != false) {
+            throw new NoSuchServiceException($result['output']);
+        }
 
         return $this->processResult($result);
     }

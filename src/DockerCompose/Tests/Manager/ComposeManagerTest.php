@@ -20,7 +20,6 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testStart()
     {
-
         $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => 'ok', 'code' => 0));
         $this->assertEquals($this->manager->start(), 'ok');
     }
@@ -30,7 +29,6 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testStartWithOneComposeFileSpecified()
     {
-
         $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml up -d')->willReturn(array('output' => 'ok', 'code' => 0));
         $this->assertEquals($this->manager->start('docker-compose.test.yml'), 'ok');
     }
@@ -40,7 +38,6 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testStartWithTwoComposeFilesSpecified()
     {
-
         $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d')->willReturn(array('output' => 'ok', 'code' => 0));
         $this->assertEquals($this->manager->start(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
     }
@@ -287,5 +284,24 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     {
         $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => '', 'code' => 127));
         $this->manager->remove();
+    }
+
+    /**
+     * Test run
+     */
+    public function testrun()
+    {
+        $this->manager->method('execute')->with('docker-compose run --rm test mycommand')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->run('test', 'mycommand'), 'ok');
+    }
+
+    /**
+     * Test run
+     * @expectedException \DockerCompose\Exception\NoSuchServiceException
+     */
+    public function testrunThrowNoSuchServiceException()
+    {
+        $this->manager->method('execute')->with('docker-compose run --rm test mycommand')->willReturn(array('output' => 'ERROR: No such service: test', 'code' => 1));
+        $this->manager->run('test', 'mycommand');
     }
 }
