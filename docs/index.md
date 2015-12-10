@@ -1,6 +1,16 @@
-# Docker-Compose-PHP
+# Welcome to the docker-compose-php documentation!
 
 This is the documentation for [docker-compose-php](https://github.com/omauger/docker-compose-php) library.
+This library permit you to do docker-compose command from your php application.
 
-* [Create a docker-compose files collection](#create-composefiles-collection)
+## Compatibility
 
+This module is compatible with docker client 1.9, docker-compose 1.5 and php 5.6.
+
+## Contents
+
+* [Start your containers from docker-compose.yml](/basic#start-containers)
+* [Stop your containers from docker-compose.yml](/basic#stop-containers)
+* [Remove your containers from docker-compose.uml](/basic#remove-containers)
+* [Run a command in a container from docker-composer.yml](/basic#run-command-in-container)
+* [Create a docker-compose files collection](/docker-compose files#create-composefiles-collection)
