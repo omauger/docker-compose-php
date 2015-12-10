@@ -9,8 +9,10 @@ before_install:
   - docker pull composer/composer:latest
   - docker pull jolicode/phaudit:latest
 
-script:
+install:
   - ./scripts/prepare.sh
+
+script:
   - ./scripts/tests.sh
 
 after_script:
