@@ -304,4 +304,16 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
         $this->manager->method('execute')->with('docker-compose run --rm test mycommand')->willReturn(array('output' => 'ERROR: No such service: test', 'code' => 1));
         $this->manager->run('test', 'mycommand');
     }
+
+    /**
+     * Test run with project, networking and network driver option
+     */
+    public function testRuntWithprojectAndNetworkingWithDriverOption()
+    {
+        $composeFiles = new ComposeFileCollection('docker-compose.test.yml');
+        $composeFiles->setProjectName('unittest')->setIsNetworking(true)->setNetworkDriver('overlay');
+
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml --x-networking --x-network-driver overlay --project-name unittest run test mycommand')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->run('test', 'mycommand', $composeFiles), 'ok');
+    }
 }
