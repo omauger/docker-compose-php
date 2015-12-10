@@ -1,0 +1,17 @@
+sudo: required
+
+language: php
+
+services:
+  - docker
+
+before_install:
+  - docker pull composer/composer:latest
+  - docker pull jolicode/phaudit:latest
+
+script:
+  - ./scripts/prepare.sh
+  - ./scripts/tests.sh
+
+after_script:
+  - docker run --rm -v $PWD:$PWD -w $PWD busybox rm -Rf vendor composer.lock

@@ -20,7 +20,15 @@ So basically, if you want the `0.1` version set, pull the tag`0.1.0` and you sho
 Installation
 ------------
 
-git pull git.alterway.fr/ophelie.mauger/docker-compose-php.git@develop
+The recommended way to install Docker PHP is of course to use [Composer](http://getcomposer.org/):
+
+```json
+{
+    "require": {
+        "omauger/docker-compose-php": "@dev"
+    }
+}
+```
 
 **Note**: there is no stable version of Docker-compose PHP yet.
 
@@ -45,6 +53,8 @@ $composeFiles = new DockerCompose\ComposeFileCollection('docker-compose.yml');
 $composeFiles->setProjectName('myproject')->setNetworking(true)->setNetworkDriver('overlay');
 $manager->start($composeFiles);
 ```
+
+### RUN
 
 ### Stop
 #### Method `stop()`
