@@ -16,6 +16,5 @@ This module is compatible with docker client 1.9, docker-compose 1.5 and php 5.6
     * [Stop your containers from docker-compose.yml](/basic#stop)
     * [Remove your containers from docker-compose.uml](/basic#remove)
     * [Run a command in a container from docker-composer.yml](/basic#run)
-    * [Create a docker-compose files collection](/docker-compose files#create-composefiles-collection)
 * [Class ComposeFileCollection](/composefilecollection)
 * [Class ComposeManager](/composemanager)
