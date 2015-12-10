@@ -2,6 +2,14 @@
 
 This class permit to do docker-compose command.
 
+## Construct
+
+```php
+use DockerCompose\Manager\ComposeManager
+
+$manager = new ComposeManager();
+```
+
 ## Methods
 
 ### start()
@@ -83,7 +91,7 @@ The ComposeFileCollection can be used to set the project name and the docker net
 * $composeFiles : array of string | ComposeFileCollection - This is an optionnal parameter, default is an empty array.
 
 #### returned type
-This method return the output for the command `docker-compose ... rm` in string.
+This method return the output for the command `docker-compose ... run --rm ...` in string.
 
 #### Examples:
 ```php
