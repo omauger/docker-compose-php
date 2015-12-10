@@ -2,7 +2,7 @@
 
 ## Import ComposeManager
 
-Assume you have installed docker-compose-php with composer.
+Assume you have installed docker-compose-php with composer or see installation guide [here](/installation#installing-with-composer).
 
 ```php
 require __DIR__.'/vendor/autoload.php';

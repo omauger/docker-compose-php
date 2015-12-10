@@ -4,7 +4,8 @@ site_description: A Docker-compose SDK in PHP
 repo_url: https://github.com/omauger/docker-compose-php
 
 pages:
-  - [index.md, Home, index]
+  - [index.md, Home]
   - [installation.md, Installation]
   - [basic.md, Basic Usage]
-
+  - [composefilecollection.md, Class ComposeFileCollection]
+  - [composemanager.md, Class ComposeManager]
