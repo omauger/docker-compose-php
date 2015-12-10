@@ -6,7 +6,7 @@ Not much is supported yet, but the goal is to reach 100% of docker-compose optio
 
 This is supported for docker version 1.9 and docker-compose version 1.5.
 
-[![Travis-CI](https://travis-ci.org/omauger/docker-compose-php.svg?branch=master)](https://travis-ci.org/omauger/docker-compose-php)
+[![Travis-CI](https://travis-ci.org/omauger/docker-compose-php.svg?branch=master)](https://travis-ci.org/omauger/docker-compose-php) [![Documentation Status](https://readthedocs.org/projects/docker-compose-php/badge/?version=latest)](http://docker-compose-php.readthedocs.org/en/latest/?badge=latest)
 
 Versioning
 ----------
