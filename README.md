@@ -37,7 +37,7 @@ The recommended way to install Docker PHP is of course to use [Composer](http://
 Usage
 -----
 
-See [the documentation](http://docker-compose-php.org/en/latest/)
+See [the documentation](http://docker-compose-php.readthedocs.org/en/latest/)
 Run tests
 ---------
 ```
