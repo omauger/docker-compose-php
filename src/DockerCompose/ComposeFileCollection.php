@@ -33,7 +33,6 @@ class ComposeFileCollection
      * @param array of string or ComposeFile
      *
      * @throws \Exception When a composeFile definition is invalid
-     * @return ComposeFileCollection
      */
     public function __construct()
     {
@@ -49,9 +48,9 @@ class ComposeFileCollection
                     $this->add(new ComposeFile($composeFile));
                 } else {
                     throw new \Exception(
-                        'Invalid composeFile definition "('. gettype(
+                        'Invalid composeFile definition "(' . gettype(
                             $composeFile
-                        ).') '. var_export(
+                        ).') ' . var_export(
                             $composeFile,
                             true
                         ).'"'

@@ -47,7 +47,7 @@ class ComposeFile
     /**
      * Set the file name
      *
-     * @param string $filName The name of file to set
+     * @param string $fileName The name of file to set
      *
      * @return ComposeFile
      */
