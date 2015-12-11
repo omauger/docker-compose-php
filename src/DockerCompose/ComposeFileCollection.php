@@ -39,7 +39,7 @@ class ComposeFileCollection
         $args = func_get_arg(0);
 
         if (!is_array($args)) {
-            throw new \Exception('Invalid parameter "(' . gettype($args). ')');
+            throw new \Exception('Invalid parameter "(' . gettype($args) . ')');
         }
 
         foreach ($args as $composeFile) {
@@ -51,7 +51,7 @@ class ComposeFileCollection
                 throw new \Exception(
                     'Invalid composeFile definition "(' . gettype(
                         $composeFile
-                    ). ') ' . var_export(
+                    ) . ') ' . var_export(
                         $composeFile,
                         true
                     ) . '"'

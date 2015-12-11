@@ -27,7 +27,7 @@ class ComposeFileCollectionTest extends PHPUnit_Framework_TestCase
      * @expectedException Exception
      */
     public function testCreateCompseFileCollectionFailedNotArray() {
-        $file = new ComposeFileCollection('docker-compose.yml');
+        new ComposeFileCollection('docker-compose.yml');
     }
 
     /**
@@ -36,6 +36,6 @@ class ComposeFileCollectionTest extends PHPUnit_Framework_TestCase
      * @expectedException Exception
      */
     public function testCreateCompseFileCollectionFailedInvalidTypeOfData() {
-        $file = new ComposeFileCollection(['docker-compose.yml', 12]);
+        new ComposeFileCollection(['docker-compose.yml', 12]);
     }
 }

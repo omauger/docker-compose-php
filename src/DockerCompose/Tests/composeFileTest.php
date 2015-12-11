@@ -13,6 +13,7 @@ class ComposeFileTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateCompseFileSuccess() {
         $file = new ComposeFile('docker-compose.yml');
+        $this->assertEquals('docker-compose.yml', $file->getFileName());
     }
 
     /**
@@ -21,6 +22,6 @@ class ComposeFileTest extends PHPUnit_Framework_TestCase
      * @expectedException Exception
      */
     public function testCreateCompseFileFailed() {
-        $file = new ComposeFile(25);
+        new ComposeFile(25);
     }
 }
