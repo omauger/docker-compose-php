@@ -50,10 +50,10 @@ class ComposeFileCollection
                     throw new \Exception(
                         'Invalid composeFile definition "(' . gettype(
                             $composeFile
-                        ).') ' . var_export(
+                        ). ') ' . var_export(
                             $composeFile,
                             true
-                        ).'"'
+                        ) . '"'
                     );
                 }
             }
