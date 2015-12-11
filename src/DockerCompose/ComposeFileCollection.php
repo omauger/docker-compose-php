@@ -38,24 +38,24 @@ class ComposeFileCollection
     {
         $args = func_get_arg(0);
 
-        if (is_string($args)) {
-            $this->add(new ComposeFile($args));
-        } else {
-            foreach ($args as $composeFile) {
-                if ($composeFile instanceof ComposeFile) {
-                    $this->add($composeFile);
-                } elseif (is_string($composeFile)) {
-                    $this->add(new ComposeFile($composeFile));
-                } else {
-                    throw new \Exception(
-                        'Invalid composeFile definition "(' . gettype(
-                            $composeFile
-                        ). ') ' . var_export(
-                            $composeFile,
-                            true
-                        ) . '"'
-                    );
-                }
+        if (!is_array($args)) {
+            throw new \Exception('Invalid parameter "(' . gettype($args). ')');
+        }
+
+        foreach ($args as $composeFile) {
+            if ($composeFile instanceof ComposeFile) {
+                $this->add($composeFile);
+            } elseif (is_string($composeFile)) {
+                $this->add(new ComposeFile($composeFile));
+            } else {
+                throw new \Exception(
+                    'Invalid composeFile definition "(' . gettype(
+                        $composeFile
+                    ). ') ' . var_export(
+                        $composeFile,
+                        true
+                    ) . '"'
+                );
             }
         }
 

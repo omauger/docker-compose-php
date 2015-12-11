@@ -3,6 +3,7 @@
 namespace DockerCompose\Tests\Manager;
 
 use PHPUnit_Framework_TestCase;
+use DockerCompose\ComposeFile;
 use DockerCompose\ComposeFileCollection;
 
 
@@ -16,7 +17,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test start without error
+     * Test simple start without error
      */
     public function testStart()
     {
@@ -47,11 +48,13 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testStartWithprojectOption()
     {
-        $composeFiles = new ComposeFileCollection('docker-compose.test.yml');
+        $composeFiles = new ComposeFileCollection(['docker-compose.test.yml']);
         $composeFiles->setProjectName('unittest');
 
         $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml --project-name unittest up -d')->willReturn(array('output' => 'ok', 'code' => 0));
+
         $this->assertEquals($this->manager->start($composeFiles), 'ok');
+
     }
 
     /**
@@ -59,7 +62,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testStartWithprojectAndNetworkingOption()
     {
-        $composeFiles = new ComposeFileCollection('docker-compose.test.yml');
+        $composeFiles = new ComposeFileCollection(['docker-compose.test.yml']);
         $composeFiles->setProjectName('unittest')->setIsNetworking(true);
 
         $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml --x-networking --project-name unittest up -d')->willReturn(array('output' => 'ok', 'code' => 0));
@@ -71,7 +74,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testStartWithprojectAndNetworkingWithDriverOption()
     {
-        $composeFiles = new ComposeFileCollection('docker-compose.test.yml');
+        $composeFiles = new ComposeFileCollection(['docker-compose.test.yml']);
         $composeFiles->setProjectName('unittest')->setIsNetworking(true)->setNetworkDriver('overlay');
 
         $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml --x-networking --x-network-driver overlay --project-name unittest up -d')->willReturn(array('output' => 'ok', 'code' => 0));
@@ -85,7 +88,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testStartThrowExceptionForDriver()
     {
-        $composeFiles = new ComposeFileCollection('docker-compose.test.yml');
+        $composeFiles = new ComposeFileCollection(['docker-compose.test.yml']);
         $composeFiles->setProjectName('unittest')->setIsNetworking(true)->setNetworkDriver('boom');
         $this->manager->start();
     }
@@ -124,6 +127,17 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
     public function testStartThrowDockerInstallationMissingException()
     {
         $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => '', 'code' => 127));
+        $this->manager->start();
+    }
+
+    /**
+     * Test start with DockerInstallationMissingException
+     *
+     * @expectedException \Exception
+     */
+    public function testStartThrowUnknownException()
+    {
+        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => '', 'code' => 1));
         $this->manager->start();
     }
 
@@ -310,7 +324,7 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testRuntWithprojectAndNetworkingWithDriverOption()
     {
-        $composeFiles = new ComposeFileCollection('docker-compose.test.yml');
+        $composeFiles = new ComposeFileCollection(['docker-compose.test.yml']);
         $composeFiles->setProjectName('unittest')->setIsNetworking(true)->setNetworkDriver('overlay');
 
         $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml --x-networking --x-network-driver overlay --project-name unittest run --rm test mycommand')->willReturn(array('output' => 'ok', 'code' => 0));

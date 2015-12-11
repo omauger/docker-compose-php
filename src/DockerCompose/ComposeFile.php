@@ -3,6 +3,8 @@
 
 namespace DockerCompose;
 
+use Exception;
+
 /**
  * DockerCompose\ComposeFile
  */

@@ -22,10 +22,7 @@ class ComposeManager
      */
     public function start($composeFiles = array())
     {
-        if (!$composeFiles instanceof ComposeFileCollection) {
-            $composeFiles = new ComposeFileCollection($composeFiles);
-        }
-
+        $composeFiles = $this->createComposeFileCollection($composeFiles);
         $result = $this->execute(
             $this->formatCommand('up -d', $composeFiles)
         );
@@ -40,10 +37,7 @@ class ComposeManager
      */
     public function stop($composeFiles = array())
     {
-        if (!$composeFiles instanceof ComposeFileCollection) {
-            $composeFiles = new ComposeFileCollection($composeFiles);
-        }
-
+        $composeFiles = $this->createComposeFileCollection($composeFiles);
         $result = $this->execute(
             $this->formatCommand('stop', $composeFiles)
         );
@@ -60,10 +54,7 @@ class ComposeManager
      */
     public function remove($composeFiles = array(), $force = false, $removeVolumes = false)
     {
-        if (!$composeFiles instanceof ComposeFileCollection) {
-            $composeFiles = new ComposeFileCollection($composeFiles);
-        }
-
+        $composeFiles = $this->createComposeFileCollection($composeFiles);
         $command = 'rm';
         if ($force) {
             $command .= ' --force';
@@ -89,12 +80,7 @@ class ComposeManager
      */
     public function run($service, $command, $composeFiles = array())
     {
-        if (!$composeFiles instanceof ComposeFileCollection) {
-            $composeFiles = new ComposeFileCollection($composeFiles);
-        }
-
-
-
+        $composeFiles = $this->createComposeFileCollection($composeFiles);
         $command = 'run --rm ' . $service . ' ' . $command;
         $result = $this->execute(
             $this->formatCommand($command, $composeFiles)
@@ -139,6 +125,26 @@ class ComposeManager
     }
 
     /**
+     * Create the composeFileCollection from the type of value given
+     *
+     * @param mixed $composeFiles The docker-compose files (can be array, string or ComposeFile)
+     *
+     * @return ComposeFileCollection
+     */
+    private function createComposeFileCollection($composeFiles)
+    {
+        if (!$composeFiles instanceof ComposeFileCollection) {
+            if (!is_array($composeFiles)) {
+                return new ComposeFileCollection([$composeFiles]);
+            } else {
+                return new ComposeFileCollection($composeFiles);
+            }
+        } else {
+            return $composeFiles;
+        }
+    }
+
+    /**
      * Format the command to execute
      *
      * @param string                $subcommand   The subcommand to pass to docker-compose command
@@ -173,7 +179,7 @@ class ComposeManager
 
     /**
      * Execute docker-compose commande
-     *
+     * @codeCoverageIgnore
      * @param string                $command      The command to execute
      */
     protected function execute($command)
