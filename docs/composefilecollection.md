@@ -4,13 +4,13 @@ This class permit to set your application options with a list of docker-compose 
 
 ## Construct
 
-Can have an array of string in call. The string correspond of files for docker-compose.
+Need an array of string or [ComposeFile](/composefile) in call.
 
 Examples :
 ```php
 use DockerCompose\ComposeFileCollection;
 
-$composeCollection1 = new ComposeFileCollection(); # The ComposeFileCollection has no one docker-compose file yet.
+$composeCollection1 = new ComposeFileCollection([]); # The ComposeFileCollection has no one docker-compose file yet.
 $composeCollection2 = new ComposeFileCollection(['docker-compose.yml', 'docker-compose.dev.yml']); # The ComposeFileCollection has two docker-compose files
 ```
 
@@ -22,7 +22,7 @@ This method permit to add a docker-compose file to the collection.
 
 Example:
 ```php
-$composeCollection = new ComposeFileCollection();
+$composeCollection = new ComposeFileCollection([]);
 $composeCollection->add('docker-compose.yml');
 ```
 
