@@ -25,7 +25,7 @@ class ComposeFile
         if (is_string($name)) {
             $this->setFileName($name);
         } else {
-            throw new Exception('Invalid fileName definition "('.gettype($name).') '.var_export($name, true).'"');
+            throw new Exception('Invalid fileName definition "(' . gettype($name) . ') ' . var_export($name, true) . '"');
 
         }
     }

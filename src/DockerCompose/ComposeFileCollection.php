@@ -83,6 +83,7 @@ class ComposeFileCollection
 
     /**
      * Set Project Name
+     * @param string $projectName
      */
     public function setProjectName($projectName)
     {
@@ -100,6 +101,7 @@ class ComposeFileCollection
 
     /**
      * Set is Networking
+     * @param boolean $isNetworking
      */
     public function setIsNetworking($isNetworking)
     {
@@ -119,6 +121,7 @@ class ComposeFileCollection
      * Set Networking driver
      *
      * @throws Exception When $networkDriver is not a valid driver
+     * @param string $networkDriver
      */
     public function setNetworkDriver($networkDriver)
     {

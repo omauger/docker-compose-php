@@ -10,7 +10,6 @@ use Exception;
 class DockerHostConnexionErrorException extends Exception
 {
     /**
-     * @param string         $containerId
      * @param null|Exception $previous
      */
     public function __construct(Exception $previous = null)
