@@ -28,7 +28,7 @@ $composeCollection->add('docker-compose.yml');
 
 ### getAll()
 
-This method return an array of docker-compose files.
+This method return an array of [ComposeFile](/composefile).
 
 ### setProjectName()
 
