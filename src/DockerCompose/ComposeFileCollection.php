@@ -58,8 +58,6 @@ class ComposeFileCollection
                 );
             }
         }
-
-        return $this;
     }
 
     /**

@@ -22,12 +22,11 @@ class ComposeManager
      */
     public function start($composeFiles = array())
     {
-        $composeFiles = $this->createComposeFileCollection($composeFiles);
-        $result = $this->execute(
-            $this->formatCommand('up -d', $composeFiles)
+        return $this->processResult(
+            $this->execute(
+                $this->formatCommand('up -d', $this->createComposeFileCollection($composeFiles))
+            )
         );
-
-        return $this->processResult($result);
     }
 
     /**
@@ -37,12 +36,11 @@ class ComposeManager
      */
     public function stop($composeFiles = array())
     {
-        $composeFiles = $this->createComposeFileCollection($composeFiles);
-        $result = $this->execute(
-            $this->formatCommand('stop', $composeFiles)
+        return $this->processResult(
+            $this->execute(
+                $this->formatCommand('stop', $this->createComposeFileCollection($composeFiles))
+            )
         );
-
-        return $this->processResult($result);
     }
 
     /**
@@ -54,7 +52,6 @@ class ComposeManager
      */
     public function remove($composeFiles = array(), $force = false, $removeVolumes = false)
     {
-        $composeFiles = $this->createComposeFileCollection($composeFiles);
         $command = 'rm';
         if ($force) {
             $command .= ' --force';
@@ -64,11 +61,11 @@ class ComposeManager
             $command .= ' -v';
         }
 
-        $result = $this->execute(
-            $this->formatCommand($command, $composeFiles)
+        return $this->processResult(
+            $this->execute(
+                $this->formatCommand($command, $this->createComposeFileCollection($composeFiles))
+            )
         );
-
-        return $this->processResult($result);
     }
 
     /**
@@ -80,10 +77,9 @@ class ComposeManager
      */
     public function run($service, $command, $composeFiles = array())
     {
-        $composeFiles = $this->createComposeFileCollection($composeFiles);
         $command = 'run --rm ' . $service . ' ' . $command;
         $result = $this->execute(
-            $this->formatCommand($command, $composeFiles)
+            $this->formatCommand($command, $this->createComposeFileCollection($composeFiles))
         );
 
         if ($result['code'] == 1 && strpos($result['output'], 'No such service') != false) {

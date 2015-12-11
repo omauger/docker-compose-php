@@ -19,7 +19,6 @@ class ComposeFile
      * @param string
      *
      * @throws \Exception When the file name is not a string
-     * @return ComposeFile
      */
     public function __construct()
     {
@@ -32,8 +31,6 @@ class ComposeFile
                 'Invalid fileName definition "(' . gettype($name) . ') ' . var_export($name, true) . '"'
             );
         }
-
-        return $this;
     }
 
     /**
