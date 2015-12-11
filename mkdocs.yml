@@ -7,5 +7,6 @@ pages:
   - [index.md, Home]
   - [installation.md, Installation]
   - [basic.md, Basic Usage]
+  - [composefile.md, Class ComposeFile]
   - [composefilecollection.md, Class ComposeFileCollection]
   - [composemanager.md, Class ComposeManager]

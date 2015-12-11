@@ -17,6 +17,7 @@ class ComposeFile
      * @param string
      *
      * @throws \Exception When the file name is not a string
+     * @return ComposeFile
      */
     public function __construct()
     {
@@ -25,9 +26,12 @@ class ComposeFile
         if (is_string($name)) {
             $this->setFileName($name);
         } else {
-            throw new Exception('Invalid fileName definition "(' . gettype($name) . ') ' . var_export($name, true) . '"');
-
+            throw new Exception(
+                'Invalid fileName definition "(' . gettype($name) . ') ' . var_export($name, true) . '"'
+            );
         }
+
+        return $this;
     }
 
     /**
@@ -42,6 +46,10 @@ class ComposeFile
 
     /**
      * Set the file name
+     *
+     * @param string $filName The name of file to set
+     *
+     * @return ComposeFile
      */
     public function setFileName($fileName)
     {

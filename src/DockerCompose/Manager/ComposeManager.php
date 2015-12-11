@@ -166,7 +166,7 @@ class ComposeManager
             $preciseFiles .= ' -f ' . $composeFile->getFileName();
         }
 
-        $command = 'docker-compose' . $preciseFiles . $networking . $networkDriver . $project . ' ' .$subcommand;
+        $command = 'docker-compose' . $preciseFiles . $networking . $networkDriver . $project . ' ' . $subcommand;
 
         return $command;
     }

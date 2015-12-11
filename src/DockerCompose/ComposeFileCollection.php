@@ -33,6 +33,7 @@ class ComposeFileCollection
      * @param array of string or ComposeFile
      *
      * @throws \Exception When a composeFile definition is invalid
+     * @return ComposeFileCollection
      */
     public function __construct()
     {
@@ -48,9 +49,9 @@ class ComposeFileCollection
                     $this->add(new ComposeFile($composeFile));
                 } else {
                     throw new \Exception(
-                        'Invalid composeFile definition "('.gettype(
+                        'Invalid composeFile definition "('. gettype(
                             $composeFile
-                        ).') '.var_export(
+                        ).') '. var_export(
                             $composeFile,
                             true
                         ).'"'
@@ -83,7 +84,10 @@ class ComposeFileCollection
 
     /**
      * Set Project Name
+     *
      * @param string $projectName
+     *
+     * @return ComposeFileCollection
      */
     public function setProjectName($projectName)
     {
@@ -93,6 +97,8 @@ class ComposeFileCollection
 
     /**
      * Get Project Name
+     *
+     * @return string
      */
     public function getProjectName()
     {
@@ -101,7 +107,10 @@ class ComposeFileCollection
 
     /**
      * Set is Networking
+     *
      * @param boolean $isNetworking
+     *
+     * @return ComposeFileCollection
      */
     public function setIsNetworking($isNetworking)
     {
@@ -111,6 +120,8 @@ class ComposeFileCollection
 
     /**
      * Get if is Networking
+     *
+     * @return boolean
      */
     public function isNetworking()
     {
@@ -120,8 +131,10 @@ class ComposeFileCollection
     /**
      * Set Networking driver
      *
-     * @throws Exception When $networkDriver is not a valid driver
      * @param string $networkDriver
+     *
+     * @throws Exception When $networkDriver is not a valid driver
+     * @return ComposeFileCollection
      */
     public function setNetworkDriver($networkDriver)
     {
@@ -135,6 +148,8 @@ class ComposeFileCollection
 
     /**
      * Get networking driver
+     *
+     * @return string
      */
     public function getNetworkDriver()
     {
