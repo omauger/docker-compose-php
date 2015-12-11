@@ -175,7 +175,6 @@ class ComposeManager
      * Execute docker-compose commande
      *
      * @param string                $command      The command to execute
-     * @param ComposeFileCollection $composeFiles The compose files to use for command
      */
     protected function execute($command)
     {

@@ -10,8 +10,8 @@ use Exception;
 class NoSuchServiceException extends Exception
 {
     /**
-     * @param string         $containerId
      * @param null|Exception $previous
+     * @param string $output
      */
     public function __construct($output, Exception $previous = null)
     {
