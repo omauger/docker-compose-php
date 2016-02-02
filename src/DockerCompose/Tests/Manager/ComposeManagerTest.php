@@ -393,6 +393,8 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
         $this->manager->method('execute')->with('docker-compose build --pull --force-rm --no-cache')->willReturn(array('output' => 'ok', 'code' => 0));
         $this->assertEquals($this->manager->build([], true, true, false), 'ok');
 
+    }
+
     /**
      * Test simple ps without error
      */
