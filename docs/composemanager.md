@@ -111,7 +111,10 @@ The ComposeFileCollection can be used to set the project name and the docker net
 
 ### build()
 #### parameters
-* $composeFiles : array of string | ComposeFileCollection - This is an optionnal parameter, default is an empty array.
+* composeFiles : array of string | ComposeFileCollection - This is an optionnal parameter, default is an empty array.
+* pull : boolean - If you need to attempt to pull the from image. This is an optionnal parameter, default is true.
+* forceRm : boolean - If you need to remove intermediate containers . This is an optionnal parameter, default is false.
+* cache : boolean - If you want to use cache. This is an optionnal parameter, default is true.
 
 #### returned type
 This method return the output for the command `docker-compose ... build` in string.
@@ -120,6 +123,15 @@ This method return the output for the command `docker-compose ... build` in stri
 ```php
 # Build from a standard docker-compose file (docker-compose.yml)
 $manager->build();
+
+# Build without pull from image
+$manager->build([], false)
+
+# Build with force remove intermediate containers
+$manager->build([], true, true)
+
+# Build without use the cache
+$manager->build([], true, false, false)
 
 # Build from a multiple docker-compose files
 $manager->build(['docker-compose.yml', 'docker-compose.dev.yml']);
