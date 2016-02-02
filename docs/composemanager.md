@@ -56,6 +56,29 @@ $manager->stop($composeCollection);
 
 The ComposeFileCollection can be used to set the project name and the docker network for your application. For more information, please read the doc about [ComposeFileCollection](/composefilecollection).
 
+### restart()
+#### parameters
+* $composeFiles : array of string | ComposeFileCollection - This is an optionnal parameter, default is an empty array.
+* timeout : integer - Spécify a shutdown timeout in seconds - This is an optionnal parameter, default is 10.
+
+#### returned type
+This method return the output for the command `docker-compose ... restart` in string.
+
+#### Examples:
+```php
+# Up from a standard docker-compose file (docker-compose.yml)
+$manager->restart();
+
+# Up from a multiple docker-compose files
+$manager->restart(['docker-compose.yml', 'docker-compose.dev.yml']);
+
+# Up with a ComposeFileCollection
+$composeCollection = new ComposeFileCollection(['docker-compose.yml', 'docker-compose.dev.yml']);
+$manager->restart($composeCollection);
+```
+
+The ComposeFileCollection can be used to set the project name and the docker network for your application. For more information, please read the doc about [ComposeFileCollection](/composefilecollection).
+
 ### remove()
 #### parameters
 * $composeFiles : array of string | ComposeFileCollection - This is an optionnal parameter, default is an empty array.
