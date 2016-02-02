@@ -179,6 +179,22 @@ class ComposeManager
     }
 
     /**
+     * List IP containers
+     *
+     * @param mixed $composeFiles The compose files names
+     */
+    public function ips($composeFiles = array())
+    {
+        $command = $this->formatCommand('ps', $this->createComposeFileCollection($composeFiles));
+
+        $command = 'for CONTAINER in $(' . $command . ' -q); ';
+        $command .= 'do echo "$(docker inspect --format \' {{ .Name }} \' $CONTAINER)\t';
+        $command .= '$(docker inspect --format \' {{ .NetworkSettings.IPAddress }} \' $CONTAINER)"; done';
+
+        return $this->processResult($this->execute($command));
+    }
+
+    /**
      * Process result with returned code and output
      *
      * @param array $result The result of command with output and returnCode
