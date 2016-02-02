@@ -12,8 +12,6 @@
         "php": ">=5.4",
         "mikehaertl/php-shellcommand": "1.2.0"
     },
-    "require-dev": {
-    },
     "config": {
         "bin-dir": "bin"
     },
