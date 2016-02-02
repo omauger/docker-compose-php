@@ -499,8 +499,8 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
      */
     public function testKillWithSpecificSIGNAL()
     {
-        $this->manager->method('execute')->with('docker-compose kill -s 3')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->kill([], 3), 'ok');
+        $this->manager->method('execute')->with('docker-compose kill -s SIGALRM')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->kill([], 'SIGALRM'), 'ok');
     }
 
     /**

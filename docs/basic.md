@@ -62,6 +62,19 @@ $manager->remove();
 
 To view more informations and all possible parameters for this method, please check this [page](/ComposeManager#stop)
 
+## Kill
+
+To kill all containers for your application from a docker-compose file named docker-compose.yml and if you have this file in the root of your project,
+you can remove with the method `kill` on the ComposeManager.
+
+Example:
+```php
+$manager = new ComposeManager();
+$manager->kill();
+```
+
+To view more informations and all possible parameters for this method, please check this [page](/ComposeManager#stop)
+
 ## Run
 
 To run a service for your application from a docker-compose file named docker-compose.yml and if you have this file in the root of your project,
