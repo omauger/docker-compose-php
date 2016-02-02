@@ -74,3 +74,10 @@ $manager->build();
 ```
 
 To view more informations and all possible parameters for this method, please check this [page](/ComposeManager#build)
+
+## List containers
+```php
+$manager = new ComposeManager();
+$manager->ps();
+```
+
