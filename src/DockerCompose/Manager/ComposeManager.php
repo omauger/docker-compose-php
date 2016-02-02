@@ -7,6 +7,7 @@ use DockerCompose\Exception\DockerHostConnexionErrorException;
 use DockerCompose\Exception\DockerInstallationMissingException;
 use DockerCompose\Exception\NoSuchServiceException;
 use DockerCompose\ComposeFileCollection;
+use mikehaertl\shellcommand\Command;
 use Exception;
 
 /**
@@ -151,6 +152,7 @@ class ComposeManager
         $project = '';
         $networking = '';
         $networkDriver = '';
+
         # Add project name, and network options
         if ($composeFiles->getProjectName() != null) {
             $project = ' --project-name ' . $composeFiles->getProjectName();
@@ -180,15 +182,17 @@ class ComposeManager
      */
     protected function execute($command)
     {
-        $command = system($command . ' > output 2>&1', $retval);
+        $exec = new Command($command);
 
-        $output = fopen('output', 'r');
-        $output = fread($output, filesize('output'));
-        unlink('output');
+        if ($exec->execute()) {
+            $output = $exec->getOutput();
+        } else {
+            $output = $exec->getError();
+        }
 
         return array(
             'output' => $output,
-            'code' => $retval
+            'code' => $exec->getExitCode()
         );
     }
 }

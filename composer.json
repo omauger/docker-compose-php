@@ -9,9 +9,8 @@
         }
     },
     "require": {
-        "php": ">=5.4"
-    },
-    "require-dev": {
+        "php": ">=5.4",
+        "mikehaertl/php-shellcommand": "1.2.0"
     },
     "config": {
         "bin-dir": "bin"
