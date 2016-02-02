@@ -330,4 +330,31 @@ class ComposeManagerTest extends PHPUnit_Framework_TestCase
         $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml --x-networking --x-network-driver overlay --project-name unittest run --rm test mycommand')->willReturn(array('output' => 'ok', 'code' => 0));
         $this->assertEquals($this->manager->run('test', 'mycommand', $composeFiles), 'ok');
     }
+
+    /**
+     * Test simple build without error
+     */
+    public function testBuild()
+    {
+        $this->manager->method('execute')->with('docker-compose build')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->build(), 'ok');
+    }
+
+    /**
+     * Test build success with one compose file
+     */
+    public function testBuildWithOneComposeFileSpecified()
+    {
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml build')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->build('docker-compose.test.yml'), 'ok');
+    }
+
+    /**
+     * Test build success with two compose files
+     */
+    public function testBuildWithTwoComposeFilesSpecified()
+    {
+        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml build')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->manager->build(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
+    }
 }

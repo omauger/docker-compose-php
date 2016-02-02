@@ -70,6 +70,17 @@ class ComposeManager
     }
 
     /**
+     * Build service images
+     */
+    public function build($composeFiles = array()) {
+        return $this->processResult(
+            $this->execute(
+                $this->formatCommand('build', $this->createComposeFileCollection($composeFiles))
+            )
+        );
+    }
+
+    /**
      * Run service with command
      *
      * @param string $service Service name
