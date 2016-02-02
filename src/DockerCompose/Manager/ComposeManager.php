@@ -122,6 +122,20 @@ class ComposeManager
     }
 
     /**
+     * List containers
+     *
+     * @param mixed $composeFiles The compose files names
+     */
+    public function ps($composeFiles = array())
+    {
+        return $this->processResult(
+            $this->execute(
+                $this->formatCommand('ps', $this->createComposeFileCollection($composeFiles))
+            )
+        );
+    }
+
+    /**
      * Process result with returned code and output
      *
      * @param array $result The result of command with output and returnCode
