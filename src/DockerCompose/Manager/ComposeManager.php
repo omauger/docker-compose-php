@@ -69,6 +69,27 @@ class ComposeManager
         );
     }
 
+     /**
+     * Stop service containers
+     *
+     * @param mixed   $composeFiles  The compose files names
+     * @param string  $signal        Optionnal to precise SIGNAL to send to the container for SIGKILL replacement.
+     */
+    public function kill($composeFiles = array(), $signal = 'SIGKILL')
+    {
+        $command = 'kill';
+
+        if ($signal !== 'SIGKILL') {
+            $command .= ' -s ' . $signal;
+        }
+
+        return $this->processResult(
+            $this->execute(
+                $this->formatCommand($command, $this->createComposeFileCollection($composeFiles))
+            )
+        );
+    }
+
     /**
      * Build service images
      *

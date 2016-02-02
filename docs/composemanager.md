@@ -105,6 +105,37 @@ $composeCollection = new ComposeFileCollection(['docker-compose.yml', 'docker-co
 $manager->remove($composeCollection, true, true);
 ```
 
+### kill()
+#### parameters
+* $composeFiles : array of string | ComposeFileCollection - This is an optionnal parameter, default is an empty array.
+* signal : string - This is an optionnal parameter, default is SIGKILL
+
+#### returned type
+This method return the output for the command `docker-compose ... kill` in string.
+
+#### Examples:
+```php
+# Kill from a standard docker-compose file (docker-compose.yml)
+$manager->kill();
+
+# kill with a specific SIGNAL
+$manager->kill([], 'SIGALRM');
+
+# Kill from a standard docker-compose file (docker-compose.yml)
+$manager->kill();
+
+# Kill from a multiple docker-compose files
+$manager->kill(['docker-compose.yml', 'docker-compose.dev.yml']);
+
+# Kill with a ComposeFileCollection
+$composeCollection = new ComposeFileCollection(['docker-compose.yml', 'docker-compose.dev.yml']);
+$manager->kill($composeCollection);
+
+# Kill with force and kill persistent volumes
+$composeCollection = new ComposeFileCollection(['docker-compose.yml', 'docker-compose.dev.yml']);
+$manager->kill($composeCollection, true, true);
+```
+
 The ComposeFileCollection can be used to set the project name and the docker network for your application. For more information, please read the doc about [ComposeFileCollection](/composefilecollection).
 
 ### run()
