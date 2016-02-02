@@ -72,7 +72,8 @@ class ComposeManager
     /**
      * Build service images
      */
-    public function build($composeFiles = array()) {
+    public function build($composeFiles = array())
+    {
         return $this->processResult(
             $this->execute(
                 $this->formatCommand('build', $this->createComposeFileCollection($composeFiles))
