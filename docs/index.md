@@ -14,6 +14,7 @@ This module is compatible with docker client 1.9, docker-compose 1.5 and php 5.6
 * [Basic Usage](/basic)
     * [Start your containers from docker-compose.yml](/basic#start)
     * [Stop your containers from docker-compose.yml](/basic#stop)
+    * [Restart your running containers from docker-compose.yml](/basic#restart)
     * [Remove your containers from docker-compose.uml](/basic#remove)
     * [Run a command in a container from docker-composer.yml](/basic#run)
     * [Build images](/basic#build)

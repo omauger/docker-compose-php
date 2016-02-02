@@ -34,6 +34,19 @@ $manager = new ComposeManager();
 $manager->stop();
 ```
 
+## Restart
+
+To restart all running containers for your application from a docker-compose file named docker-compose.yml and if you have this file in the root of your project,
+you need to run the method `restart` on the ComposeManager.
+
+Example:
+```php
+$manager = new ComposeManager();
+$manager->restart();
+```
+
+To view more informations and all possible parameters for this method, please check this [page](/ComposeManager#start)
+
 To view more informations and all possible parameters for this method, please check this [page](/ComposeManager#stop)
 
 ## Remove
