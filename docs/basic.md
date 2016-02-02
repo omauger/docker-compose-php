@@ -64,8 +64,8 @@ To view more informations and all possible parameters for this method, please ch
 
 ## Build
 
-To start all containers for your application from a docker-compose file named docker-compose.yml and if you have this file in the root of your project,
-you can start with the method `start` on the ComposeManager.
+To build all images for your application from a docker-compose file named docker-compose.yml and if you have this file in the root of your project,
+you need to call the method `build` on the ComposeManager.
 
 Example:
 ```php
@@ -76,6 +76,11 @@ $manager->build();
 To view more informations and all possible parameters for this method, please check this [page](/ComposeManager#build)
 
 ## List containers
+
+To list the started containers of your application from a docker-compose file named docker-compose.yml and if you have this file in the root of your project,
+you need to call the method `ps` on the ComposeManager.
+
+Exemple:
 ```php
 $manager = new ComposeManager();
 $manager->ps();
