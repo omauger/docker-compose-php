@@ -70,6 +70,37 @@ class ComposeManager
     }
 
     /**
+     * Build service images
+     *
+     * @param mixed   $composeFiles  The compose files names
+     * @param boolean $pull          If we want attempt to pull a newer version of the from image
+     * @param boolean $forceRemove   If we want remove the intermediate containers
+     * @param bollean $cache         If we can use the cache when building the image
+     */
+    public function build($composeFiles = array(), $pull = true, $forceRemove = false, $cache = true)
+    {
+        $command = 'build';
+
+        if ($pull) {
+            $command .= ' --pull';
+        }
+
+        if ($forceRemove) {
+            $command .= ' --force-rm';
+        }
+
+        if (!$cache) {
+            $command .= ' --no-cache';
+        }
+
+        return $this->processResult(
+            $this->execute(
+                $this->formatCommand($command, $this->createComposeFileCollection($composeFiles))
+            )
+        );
+    }
+
+    /**
      * Run service with command
      *
      * @param string $service Service name

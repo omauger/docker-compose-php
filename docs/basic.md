@@ -61,3 +61,16 @@ $manager->run('composer', 'install'); # 'composer' is my service and 'install' i
 ```
 
 To view more informations and all possible parameters for this method, please check this [page](/ComposeManager#stop)
+
+## Build
+
+To start all containers for your application from a docker-compose file named docker-compose.yml and if you have this file in the root of your project,
+you can start with the method `start` on the ComposeManager.
+
+Example:
+```php
+$manager = new ComposeManager();
+$manager->build();
+```
+
+To view more informations and all possible parameters for this method, please check this [page](/ComposeManager#build)
