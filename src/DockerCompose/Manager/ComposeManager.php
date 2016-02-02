@@ -100,6 +100,28 @@ class ComposeManager
         );
     }
 
+
+    /**
+     * Restart running containers
+     *
+     * @param mixed   $composeFiles  The compose files names
+     * @param integer $timeout       If we want attempt to pull a newer version of the from image
+     */
+    public function restart($composeFiles = array(), $timeout = 10)
+    {
+        $command = 'restart';
+
+        if ($timeout != 10) {
+            $command .= ' --timeout='.$timeout;
+        }
+
+        return $this->processResult(
+            $this->execute(
+                $this->formatCommand($command, $this->createComposeFileCollection($composeFiles))
+            )
+        );
+    }
+
     /**
      * Run service with command
      *
