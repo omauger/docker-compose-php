@@ -107,3 +107,26 @@ $manager->run('composer', 'install', $composeCollection);
 ```
 
 The ComposeFileCollection can be used to set the project name and the docker network for your application. For more information, please read the doc about [ComposeFileCollection](/composefilecollection).
+
+
+### build()
+#### parameters
+* $composeFiles : array of string | ComposeFileCollection - This is an optionnal parameter, default is an empty array.
+
+#### returned type
+This method return the output for the command `docker-compose ... build` in string.
+
+#### Examples:
+```php
+# Build from a standard docker-compose file (docker-compose.yml)
+$manager->build();
+
+# Build from a multiple docker-compose files
+$manager->build(['docker-compose.yml', 'docker-compose.dev.yml']);
+
+# Build with a ComposeFileCollection
+$composeCollection = new ComposeFileCollection(['docker-compose.yml', 'docker-compose.dev.yml']);
+$manager->build($composeCollection);
+```
+
+The ComposeFileCollection can be used to set the project name and the docker network for your application. For more information, please read the doc about [ComposeFileCollection](/composefilecollection).
