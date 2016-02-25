@@ -21,6 +21,7 @@ This module is compatible with docker client 1.9, docker-compose 1.5 and php 5.6
     * [Run a command in a container from docker-composer.yml](/basic#run)
     * [Build images for services from docker-composer.yml](/basic#build)
     * [List the containers from docker-compose.yml](/basic#List_containers)
+    * [List the containers ip addresses for docker-compose.yml](/basic#List_containers_IPs)
 * [Class ComposeFile](/composefile)
 * [Class ComposeFileCollection](/composefilecollection)
 * [Class ComposeManager](/composemanager)
