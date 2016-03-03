@@ -10,7 +10,7 @@
     },
     "require": {
         "php": ">=5.4",
-        "mikehaertl/php-shellcommand": "1.2.0"
+        "mikehaertl/php-shellcommand": "^1.2.0"
     },
     "config": {
         "bin-dir": "bin"
