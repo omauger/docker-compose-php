@@ -114,7 +114,7 @@ $manager->ps();
 
 ## List containers IPs
 
-To list the started containers of your application from a docker-compose file named docker-compose.yml and if you have this file in the root of your project,
+To list the IP addresses of started containers of your application from a docker-compose file named docker-compose.yml and if you have this file in the root of your project,
 you need to call the method `ps` on the ComposeManager.
 
 Exemple:
