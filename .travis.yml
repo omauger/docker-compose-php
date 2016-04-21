@@ -11,6 +11,7 @@ before_install:
 
 install:
   - docker version
+  - rm src/DockerCompose/Tests/integrationTest.php
   - ./scripts/prepare.sh
 
 script:
