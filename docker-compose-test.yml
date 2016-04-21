@@ -3,3 +3,4 @@ version: "2"
 services:
   test:
     image: tutum/hello-world
+    network_mode: host
