@@ -19,6 +19,7 @@ This module is compatible with docker client 1.9, docker-compose 1.5 and php 5.6
     * [Kill your containers from docker-compose.yml](/basic#kill)
     * [Run a command in a container from docker-composer.yml](/basic#run)
     * [Build images for services from docker-composer.yml](/basic#build)
+    * [Pull images for services from docker-composer.yml](/basic#pull)
     * [List the containers from docker-compose.yml](/basic#List_containers)
     * [List the containers ip addresses for docker-compose.yml](/basic#List_containers_IPs)
 * [Class ComposeFile](/composefile)

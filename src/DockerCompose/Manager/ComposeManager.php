@@ -121,6 +121,22 @@ class ComposeManager
         );
     }
 
+    /**
+     * Build service images
+     *
+     * @param mixed   $composeFiles  The compose files names
+     */
+    public function pull($composeFiles = array())
+    {
+        $command = 'pull';
+
+        return $this->processResult(
+            $this->execute(
+                $this->formatCommand($command, $this->createComposeFileCollection($composeFiles))
+            )
+        );
+    }
+
 
     /**
      * Restart running containers
