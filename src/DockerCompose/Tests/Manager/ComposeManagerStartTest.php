@@ -11,7 +11,7 @@ class ComposeManagerStartTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->manager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
+        $this->mockedManager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
             ->setMethods(['execute'])
             ->getMock();
     }
@@ -21,8 +21,8 @@ class ComposeManagerStartTest extends PHPUnit_Framework_TestCase
      */
     public function testStart()
     {
-        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->start(), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->start(), 'ok');
     }
 
     /**
@@ -30,8 +30,8 @@ class ComposeManagerStartTest extends PHPUnit_Framework_TestCase
      */
     public function testStartWithOneComposeFileSpecified()
     {
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml up -d')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->start('docker-compose.test.yml'), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->start('docker-compose-test.yml'), 'ok');
     }
 
     /**
@@ -39,8 +39,8 @@ class ComposeManagerStartTest extends PHPUnit_Framework_TestCase
      */
     public function testStartWithTwoComposeFilesSpecified()
     {
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->start(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->start(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
     }
 
     /**
@@ -51,9 +51,9 @@ class ComposeManagerStartTest extends PHPUnit_Framework_TestCase
         $composeFiles = new ComposeFileCollection(['docker-compose.test.yml']);
         $composeFiles->setProjectName('unittest');
 
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml --project-name unittest up -d')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
 
-        $this->assertEquals($this->manager->start($composeFiles), 'ok');
+        $this->assertEquals($this->mockedManager->start($composeFiles), 'ok');
 
     }
 
@@ -66,8 +66,8 @@ class ComposeManagerStartTest extends PHPUnit_Framework_TestCase
     {
         $error = 'Can\'t find a suitable configuration file in this directory or any parent. Are you in the right directory?\n';
         $error .= 'Supported filenames: docker-compose.yml, docker-compose.yaml, fig.yml, fig.yaml';
-        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => $error, 'code' => 1));
-        $this->manager->start();
+        $this->mockedManager->method('execute')->willReturn(array('output' => $error, 'code' => 1));
+        $this->mockedManager->start();
     }
 
     /**
@@ -79,8 +79,8 @@ class ComposeManagerStartTest extends PHPUnit_Framework_TestCase
     {
         $error = 'Couldn\'t connect to Docker daemon at http+docker://localunixsocket - is it running?\n';
         $error .= 'If it\'s at a non-standard location, specify the URL with the DOCKER_HOST environment variable.';
-        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => $error, 'code' => 1));
-        $this->manager->start();
+        $this->mockedManager->method('execute')->willReturn(array('output' => $error, 'code' => 1));
+        $this->mockedManager->start();
     }
 
     /**
@@ -90,8 +90,8 @@ class ComposeManagerStartTest extends PHPUnit_Framework_TestCase
      */
     public function testStartThrowDockerInstallationMissingException()
     {
-        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => '', 'code' => 127));
-        $this->manager->start();
+        $this->mockedManager->method('execute')->willReturn(array('output' => '', 'code' => 127));
+        $this->mockedManager->start();
     }
 
     /**
@@ -101,7 +101,7 @@ class ComposeManagerStartTest extends PHPUnit_Framework_TestCase
      */
     public function testStartThrowUnknownException()
     {
-        $this->manager->method('execute')->with('docker-compose up -d')->willReturn(array('output' => '', 'code' => 1));
-        $this->manager->start();
+        $this->mockedManager->method('execute')->willReturn(array('output' => '', 'code' => 1));
+        $this->mockedManager->start();
     }
 }

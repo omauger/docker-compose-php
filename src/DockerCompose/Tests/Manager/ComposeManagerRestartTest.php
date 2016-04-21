@@ -1,6 +1,6 @@
 <?php
 
-namespace DockerCompose\Tests\Manager;
+namespace DockerCompose\Tests\mockedManager;
 
 use PHPUnit_Framework_TestCase;
 use DockerCompose\ComposeFile;
@@ -11,7 +11,7 @@ class ComposeManagerRestartTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->manager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
+        $this->mockedManager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
             ->setMethods(['execute'])
             ->getMock();
     }
@@ -21,8 +21,8 @@ class ComposeManagerRestartTest extends PHPUnit_Framework_TestCase
      */
     public function testRestart()
     {
-        $this->manager->method('execute')->with('docker-compose restart')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->restart(), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->restart(), 'ok');
     }
 
     /**
@@ -30,8 +30,8 @@ class ComposeManagerRestartTest extends PHPUnit_Framework_TestCase
      */
     public function testRestartWithTimeout()
     {
-        $this->manager->method('execute')->with('docker-compose restart --timeout=30')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->restart([], 30), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->restart([], 30), 'ok');
     }
 
     /**
@@ -39,8 +39,8 @@ class ComposeManagerRestartTest extends PHPUnit_Framework_TestCase
      */
     public function testRestartWithOneComposeFileSpecified()
     {
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml restart')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->restart('docker-compose.test.yml'), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->restart('docker-compose.test.yml'), 'ok');
     }
 
     /**
@@ -48,8 +48,8 @@ class ComposeManagerRestartTest extends PHPUnit_Framework_TestCase
      */
     public function testRestartWithTwoComposeFilesSpecified()
     {
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml restart')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->restart(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->restart(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
     }
 
     /**
@@ -60,9 +60,9 @@ class ComposeManagerRestartTest extends PHPUnit_Framework_TestCase
         $composeFiles = new ComposeFileCollection(['docker-compose.test.yml']);
         $composeFiles->setProjectName('unittest');
 
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml --project-name unittest restart')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
 
-        $this->assertEquals($this->manager->restart($composeFiles), 'ok');
+        $this->assertEquals($this->mockedManager->restart($composeFiles), 'ok');
 
     }
 }

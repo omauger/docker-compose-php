@@ -1,17 +1,18 @@
 <?php
 
-namespace DockerCompose\Tests\Manager;
+namespace DockerCompose\Tests\mockedManager;
 
 use PHPUnit_Framework_TestCase;
 use DockerCompose\ComposeFile;
 use DockerCompose\ComposeFileCollection;
+use DockerCompose\Manager\ComposeManager;
 
 
 class ComposeManagerRunTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->manager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
+        $this->mockedManager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
             ->setMethods(['execute'])
             ->getMock();
     }
@@ -21,8 +22,8 @@ class ComposeManagerRunTest extends PHPUnit_Framework_TestCase
      */
     public function testrun()
     {
-        $this->manager->method('execute')->with('docker-compose run --rm test mycommand')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->run('test', 'mycommand'), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->run('test', 'mycommand'), 'ok');
     }
 
     /**
@@ -31,19 +32,22 @@ class ComposeManagerRunTest extends PHPUnit_Framework_TestCase
      */
     public function testrunThrowNoSuchServiceException()
     {
-        $this->manager->method('execute')->with('docker-compose run --rm test mycommand')->willReturn(array('output' => 'ERROR: No such service: test', 'code' => 1));
-        $this->manager->run('test', 'mycommand');
+        $composeFiles = new ComposeFileCollection(['/var/www/docker-compose-test.yml']);
+        $composeFiles->setProjectName('unittest');
+
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'No such service : failedservice', 'code' => 1));
+        $this->mockedManager->run('failedservice', 'echo test', $composeFiles);
     }
 
     /**
-     * Test run with project, networking and network driver option
+     * Test run with project
      */
     public function testRuntWithprojectOption()
     {
-        $composeFiles = new ComposeFileCollection(['docker-compose.test.yml']);
+        $composeFiles = new ComposeFileCollection(['/var/www/docker-compose-test.yml']);
         $composeFiles->setProjectName('unittest');
 
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml --project-name unittest run --rm test mycommand')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->run('test', 'mycommand', $composeFiles), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'test', 'code' => 0));
+        $this->assertEquals($this->mockedManager->run('test', 'echo test', $composeFiles), "test");
     }
 }

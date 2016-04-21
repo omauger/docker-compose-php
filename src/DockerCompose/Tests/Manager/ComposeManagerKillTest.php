@@ -11,7 +11,7 @@ class ComposeManagerKillTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->manager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
+        $this->mockedManager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
             ->setMethods(['execute'])
             ->getMock();
     }
@@ -21,8 +21,8 @@ class ComposeManagerKillTest extends PHPUnit_Framework_TestCase
      */
     public function testKill()
     {
-        $this->manager->method('execute')->with('docker-compose kill')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->kill(), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->kill(), 'ok');
     }
 
     /**
@@ -30,8 +30,8 @@ class ComposeManagerKillTest extends PHPUnit_Framework_TestCase
      */
     public function testKillWithSpecificSIGNAL()
     {
-        $this->manager->method('execute')->with('docker-compose kill -s SIGALRM')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->kill([], 'SIGALRM'), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->kill([], 'SIGALRM'), 'ok');
     }
 
     /**
@@ -39,8 +39,8 @@ class ComposeManagerKillTest extends PHPUnit_Framework_TestCase
      */
     public function testKillWithOneComposeFileSpecified()
     {
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml kill')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->kill('docker-compose.test.yml'), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->kill('docker-compose.test.yml'), 'ok');
     }
 
     /**
@@ -48,8 +48,8 @@ class ComposeManagerKillTest extends PHPUnit_Framework_TestCase
      */
     public function testKillWithTwoComposeFilesSpecified()
     {
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml kill')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->kill(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->kill(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
     }
 
     /**
@@ -60,9 +60,9 @@ class ComposeManagerKillTest extends PHPUnit_Framework_TestCase
         $composeFiles = new ComposeFileCollection(['docker-compose.test.yml']);
         $composeFiles->setProjectName('unittest');
 
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml --project-name unittest kill')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
 
-        $this->assertEquals($this->manager->kill($composeFiles), 'ok');
+        $this->assertEquals($this->mockedManager->kill($composeFiles), 'ok');
 
     }
 }

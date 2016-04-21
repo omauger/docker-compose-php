@@ -11,7 +11,7 @@ class ComposeManagerIpsTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->manager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
+        $this->mockedManager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
             ->setMethods(['execute'])
             ->getMock();
     }
@@ -21,12 +21,11 @@ class ComposeManagerIpsTest extends PHPUnit_Framework_TestCase
      */
     public function testIps()
     {
-        $this->manager
+        $this->mockedManager
             ->method('execute')
-            ->with('for CONTAINER in $(docker-compose ps -q); do echo "$(docker inspect --format \' {{ .Name }} \' $CONTAINER)\t$(docker inspect --format \' {{ .NetworkSettings.IPAddress }} \' $CONTAINER)"; done')
             ->willReturn(array('output' => 'ok', 'code' => 0));
 
-        $this->assertEquals($this->manager->ips(), 'ok');
+        $this->assertEquals($this->mockedManager->ips(), 'ok');
     }
 
     /**
@@ -34,11 +33,10 @@ class ComposeManagerIpsTest extends PHPUnit_Framework_TestCase
      */
     public function testIpsWithOneComposeFileSpecified()
     {
-        $this->manager
+        $this->mockedManager
         ->method('execute')
-        ->with('for CONTAINER in $(docker-compose -f docker-compose.test.yml ps -q); do echo "$(docker inspect --format \' {{ .Name }} \' $CONTAINER)\t$(docker inspect --format \' {{ .NetworkSettings.IPAddress }} \' $CONTAINER)"; done')
         ->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->ips('docker-compose.test.yml'), 'ok');
+        $this->assertEquals($this->mockedManager->ips('docker-compose.test.yml'), 'ok');
     }
 
     /**
@@ -46,11 +44,10 @@ class ComposeManagerIpsTest extends PHPUnit_Framework_TestCase
      */
     public function testIpsWithTwoComposeFilesSpecified()
     {
-        $this->manager
+        $this->mockedManager
             ->method('execute')
-            ->with('for CONTAINER in $(docker-compose -f docker-compose.yml -f docker-compose.test.yml ps -q); do echo "$(docker inspect --format \' {{ .Name }} \' $CONTAINER)\t$(docker inspect --format \' {{ .NetworkSettings.IPAddress }} \' $CONTAINER)"; done')
             ->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->ips(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
+        $this->assertEquals($this->mockedManager->ips(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
     }
 
     /**
@@ -61,11 +58,10 @@ class ComposeManagerIpsTest extends PHPUnit_Framework_TestCase
         $composeFiles = new ComposeFileCollection(['docker-compose.test.yml']);
         $composeFiles->setProjectName('unittest');
 
-        $this->manager
+        $this->mockedManager
             ->method('execute')
-            ->with('for CONTAINER in $(docker-compose -f docker-compose.test.yml --project-name unittest ps -q); do echo "$(docker inspect --format \' {{ .Name }} \' $CONTAINER)\t$(docker inspect --format \' {{ .NetworkSettings.IPAddress }} \' $CONTAINER)"; done')
             ->willReturn(array('output' => 'ok', 'code' => 0));
 
-        $this->assertEquals($this->manager->ips($composeFiles), 'ok');
+        $this->assertEquals($this->mockedManager->ips($composeFiles), 'ok');
     }
 }

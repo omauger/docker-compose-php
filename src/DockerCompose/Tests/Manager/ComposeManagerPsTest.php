@@ -11,7 +11,7 @@ class ComposeManagerPsTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->manager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
+        $this->mockedManager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
             ->setMethods(['execute'])
             ->getMock();
     }
@@ -21,8 +21,8 @@ class ComposeManagerPsTest extends PHPUnit_Framework_TestCase
      */
     public function testPs()
     {
-        $this->manager->method('execute')->with('docker-compose ps')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->ps(), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->ps(), 'ok');
     }
 
     /**
@@ -30,8 +30,8 @@ class ComposeManagerPsTest extends PHPUnit_Framework_TestCase
      */
     public function testPsWithOneComposeFileSpecified()
     {
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml ps')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->ps('docker-compose.test.yml'), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->ps('docker-compose.test.yml'), 'ok');
     }
 
     /**
@@ -39,8 +39,8 @@ class ComposeManagerPsTest extends PHPUnit_Framework_TestCase
      */
     public function testPsWithTwoComposeFilesSpecified()
     {
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml ps')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->ps(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->ps(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
     }
 
     /**
@@ -51,8 +51,8 @@ class ComposeManagerPsTest extends PHPUnit_Framework_TestCase
         $composeFiles = new ComposeFileCollection(['docker-compose.test.yml']);
         $composeFiles->setProjectName('unittest');
 
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml --project-name unittest ps')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
 
-        $this->assertEquals($this->manager->ps($composeFiles), 'ok');
+        $this->assertEquals($this->mockedManager->ps($composeFiles), 'ok');
     }
 }

@@ -11,7 +11,7 @@ class ComposeManagerPullTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->manager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
+        $this->mockedManager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
             ->setMethods(['execute'])
             ->getMock();
     }
@@ -21,8 +21,8 @@ class ComposeManagerPullTest extends PHPUnit_Framework_TestCase
      */
     public function testPull()
     {
-        $this->manager->method('execute')->with('docker-compose pull')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->pull(), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->pull(), 'ok');
     }
 
     /**
@@ -31,8 +31,8 @@ class ComposeManagerPullTest extends PHPUnit_Framework_TestCase
     public function testPullWithOneComposeFileSpecified()
     {
 
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml pull')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->pull('docker-compose.test.yml'), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->pull('docker-compose.test.yml'), 'ok');
     }
 
     /**
@@ -41,7 +41,7 @@ class ComposeManagerPullTest extends PHPUnit_Framework_TestCase
     public function testPullpWithTwoComposeFilesSpecified()
     {
 
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml pull')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->pull(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->pull(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
     }
 }

@@ -6,12 +6,11 @@ use PHPUnit_Framework_TestCase;
 use DockerCompose\ComposeFile;
 use DockerCompose\ComposeFileCollection;
 
-
 class ComposeManagerBuildTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->manager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
+        $this->mockedManager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
             ->setMethods(['execute'])
             ->getMock();
     }
@@ -21,8 +20,8 @@ class ComposeManagerBuildTest extends PHPUnit_Framework_TestCase
      */
     public function testBuild()
     {
-        $this->manager->method('execute')->with('docker-compose build --pull')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->build(), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->build(), 'ok');
     }
 
     /**
@@ -30,8 +29,8 @@ class ComposeManagerBuildTest extends PHPUnit_Framework_TestCase
      */
     public function testBuildWithOneComposeFileSpecified()
     {
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml build --pull')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->build('docker-compose.test.yml'), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->build('docker-compose.test.yml'), 'ok');
     }
 
     /**
@@ -39,8 +38,8 @@ class ComposeManagerBuildTest extends PHPUnit_Framework_TestCase
      */
     public function testBuildWithTwoComposeFilesSpecified()
     {
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml build --pull')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->build(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->build(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
     }
 
     /**
@@ -48,8 +47,8 @@ class ComposeManagerBuildTest extends PHPUnit_Framework_TestCase
      */
     public function testBuildWithoutPull()
     {
-        $this->manager->method('execute')->with('docker-compose build')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->build([], false), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->build([], false), 'ok');
     }
 
     /**
@@ -57,8 +56,8 @@ class ComposeManagerBuildTest extends PHPUnit_Framework_TestCase
      */
     public function testBuildWithForceRm()
     {
-        $this->manager->method('execute')->with('docker-compose build --force-rm')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->build([], false, true), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->build([], false, true), 'ok');
     }
 
     /**
@@ -66,8 +65,8 @@ class ComposeManagerBuildTest extends PHPUnit_Framework_TestCase
      */
     public function testBuildWithNoCache()
     {
-        $this->manager->method('execute')->with('docker-compose build --no-cache')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->build([], false, false, false), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->build([], false, false, false), 'ok');
     }
 
     /**
@@ -75,8 +74,8 @@ class ComposeManagerBuildTest extends PHPUnit_Framework_TestCase
      */
     public function testBuildWithPullAndForceRmAndNoCache()
     {
-        $this->manager->method('execute')->with('docker-compose build --pull --force-rm --no-cache')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->build([], true, true, false), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->build([], true, true, false), 'ok');
 
     }
 }

@@ -11,7 +11,7 @@ class ComposeManagerRemoveTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->manager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
+        $this->mockedManager = $this->getMockBuilder('\DockerCompose\Manager\ComposeManager')
             ->setMethods(['execute'])
             ->getMock();
     }
@@ -21,8 +21,8 @@ class ComposeManagerRemoveTest extends PHPUnit_Framework_TestCase
      */
     public function testRemove()
     {
-        $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->remove(), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->remove(), 'ok');
     }
 
     /**
@@ -30,8 +30,8 @@ class ComposeManagerRemoveTest extends PHPUnit_Framework_TestCase
      */
     public function testRemoveForce()
     {
-        $this->manager->method('execute')->with('docker-compose rm --force')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->remove([], true), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->remove([], true), 'ok');
     }
 
     /**
@@ -39,8 +39,8 @@ class ComposeManagerRemoveTest extends PHPUnit_Framework_TestCase
      */
     public function testRemoveVolumes()
     {
-        $this->manager->method('execute')->with('docker-compose rm -v')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->remove([], false, true), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->remove([], false, true), 'ok');
     }
 
     /**
@@ -48,8 +48,8 @@ class ComposeManagerRemoveTest extends PHPUnit_Framework_TestCase
      */
     public function testRemoveForceAndVolumes()
     {
-        $this->manager->method('execute')->with('docker-compose rm --force -v')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->remove([], true, true), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->remove([], true, true), 'ok');
     }
 
     /**
@@ -58,8 +58,8 @@ class ComposeManagerRemoveTest extends PHPUnit_Framework_TestCase
     public function testRemoveWithOneComposeFileSpecified()
     {
 
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.test.yml rm')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->remove('docker-compose.test.yml'), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->remove('docker-compose.test.yml'), 'ok');
     }
 
     /**
@@ -68,8 +68,8 @@ class ComposeManagerRemoveTest extends PHPUnit_Framework_TestCase
     public function testRemoveWithTwoComposeFilesSpecified()
     {
 
-        $this->manager->method('execute')->with('docker-compose -f docker-compose.yml -f docker-compose.test.yml rm')->willReturn(array('output' => 'ok', 'code' => 0));
-        $this->assertEquals($this->manager->remove(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
+        $this->mockedManager->method('execute')->willReturn(array('output' => 'ok', 'code' => 0));
+        $this->assertEquals($this->mockedManager->remove(['docker-compose.yml', 'docker-compose.test.yml']), 'ok');
     }
 
     /**
@@ -81,8 +81,8 @@ class ComposeManagerRemoveTest extends PHPUnit_Framework_TestCase
     {
         $error = 'Can\'t find a suitable configuration file in this directory or any parent. Are you in the right directory?\n';
         $error .= 'Supported filenames: docker-compose.yml, docker-compose.yaml, fig.yml, fig.yaml';
-        $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => $error, 'code' => 1));
-        $this->manager->remove();
+        $this->mockedManager->method('execute')->willReturn(array('output' => $error, 'code' => 1));
+        $this->mockedManager->remove();
     }
 
     /**
@@ -94,8 +94,8 @@ class ComposeManagerRemoveTest extends PHPUnit_Framework_TestCase
     {
         $error = 'Couldn\'t connect to Docker daemon at http+docker://localunixsocket - is it running?\n';
         $error .= 'If it\'s at a non-standard location, specify the URL with the DOCKER_HOST environment variable.';
-        $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => $error, 'code' => 1));
-        $this->manager->remove();
+        $this->mockedManager->method('execute')->willReturn(array('output' => $error, 'code' => 1));
+        $this->mockedManager->remove();
     }
 
     /**
@@ -105,7 +105,7 @@ class ComposeManagerRemoveTest extends PHPUnit_Framework_TestCase
      */
     public function testRemoveThrowDockerInstallationMissingException()
     {
-        $this->manager->method('execute')->with('docker-compose rm')->willReturn(array('output' => '', 'code' => 127));
-        $this->manager->remove();
+        $this->mockedManager->method('execute')->willReturn(array('output' => '', 'code' => 127));
+        $this->mockedManager->remove();
     }
 }
