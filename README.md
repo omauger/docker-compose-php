@@ -4,7 +4,8 @@ DOCKER-COMPOSE PHP
 **Docker-compose PHP** is a [Docker-compose](https://docs.docker.com/compose/) SDK written in PHP. This library is still a work in progress.
 Not much is supported yet, but the goal is to reach 100% of docker-compose options support.
 
-This is supported for docker version 1.9 and docker-compose version 1.5.
+The versions  <= 1.0 are compatible with docker client 1.9, docker-compose 1.5 and php 5.6.
+The version 2.0 is compatible with docker client >= 1.10, docker-compose >= 1.6 and php 5.6.
 
 [![Travis-CI](https://travis-ci.org/omauger/docker-compose-php.svg?branch=master)](https://travis-ci.org/omauger/docker-compose-php) [![Documentation Status](https://readthedocs.org/projects/docker-compose-php/badge/?version=latest)](http://docker-compose-php.readthedocs.org/en/latest/?badge=latest) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/omauger/docker-compose-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/omauger/docker-compose-php/?branch=master)
 
