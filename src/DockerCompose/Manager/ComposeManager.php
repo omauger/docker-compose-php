@@ -53,10 +53,7 @@ class ComposeManager
      */
     public function remove($composeFiles = array(), $force = false, $removeVolumes = false)
     {
-        $command = 'rm';
-        if ($force) {
-            $command .= ' --force';
-        }
+        $command = 'rm --force';
 
         if ($removeVolumes) {
             $command .= ' -v';
@@ -122,7 +119,7 @@ class ComposeManager
     }
 
     /**
-     * Build service images
+     * Pull service images
      *
      * @param mixed   $composeFiles  The compose files names
      */
@@ -173,7 +170,7 @@ class ComposeManager
             $this->formatCommand($command, $this->createComposeFileCollection($composeFiles))
         );
 
-        if ($result['code'] == 1 && strpos($result['output'], 'No such service') != false) {
+        if ($result['code'] == 1 && strpos($result['output'], 'service') != false) {
             throw new NoSuchServiceException($result['output']);
         }
 
@@ -269,28 +266,23 @@ class ComposeManager
      */
     private function formatCommand($subcommand, ComposeFileCollection $composeFiles)
     {
+        $command = new Command("docker-compose");
         $project = '';
-        $networking = '';
-        $networkDriver = '';
-
-        # Add project name, and network options
-        if ($composeFiles->getProjectName() != null) {
-            $project = ' --project-name ' . $composeFiles->getProjectName();
-            if ($composeFiles->isNetworking()) {
-                $networking = ' --x-networking';
-                if ($composeFiles->getNetworkDriver() != null) {
-                    $networkDriver = ' --x-network-driver ' . $composeFiles->getNetworkDriver();
-                }
-            }
-        }
 
         # Add files names
         $preciseFiles = '';
         foreach ($composeFiles->getAll() as $composeFile) {
-            $preciseFiles .= ' -f ' . $composeFile->getFileName();
+            $command->addArg('-f', $composeFile->getFileName());
+            #$preciseFiles .= ' -f ' . $composeFile->getFileName();
         }
 
-        $command = 'docker-compose' . $preciseFiles . $networking . $networkDriver . $project . ' ' . $subcommand;
+        # Add project name
+        if ($composeFiles->getProjectName() != null) {
+            $command->addArg('--project-name', $composeFiles->getProjectName());
+            #$project = ' --project-name ' . $composeFiles->getProjectName();
+        }
+
+        $command->addArg($subcommand);
 
         return $command;
     }
@@ -298,21 +290,19 @@ class ComposeManager
     /**
      * Execute docker-compose commande
      * @codeCoverageIgnore
-     * @param string                $command      The command to execute
+     * @param Command $command The command to execute.
      */
     protected function execute($command)
     {
-        $exec = new Command($command);
-
-        if ($exec->execute()) {
-            $output = $exec->getOutput();
+        if ($command->execute()) {
+            $output = $command->getOutput();
         } else {
-            $output = $exec->getError();
+            $output = $command->getError();
         }
 
         return array(
             'output' => $output,
-            'code' => $exec->getExitCode()
+            'code' => $command->getExitCode()
         );
     }
 }

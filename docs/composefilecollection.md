@@ -53,22 +53,3 @@ Example:
 $composeCollection = new ComposeFileCollection(['docker-compose.yml', 'docker-compose.dev.yml']);
 $composeCollection->setProjectName('myproject')->setIsNetworking(true);
 ```
-
-### isNetworking()
-
-This method permit to know if your application will create a network on start.
-
-### setNetworkDriver()
-
-This method permit to set the network driver you need to create.
-
-Example:
-```php
-$composeCollection = new ComposeFileCollection(['docker-compose.yml', 'docker-compose.dev.yml']);
-$composeCollection->setProjectName('myproject')->setIsNetworking(true)->setNetworkDriver('overlay');
-```
-
-### getNetworkDriver()
-
-This method return the network driver set.
-

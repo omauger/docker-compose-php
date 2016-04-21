@@ -10,6 +10,8 @@ before_install:
   - docker pull jolicode/phaudit:latest
 
 install:
+  - docker version
+  - rm src/DockerCompose/Tests/integrationTest.php
   - ./scripts/prepare.sh
 
 script:
