@@ -6,7 +6,7 @@ This library permit you to do docker-compose command from your php application.
 ## Compatibility
 
 The versions  <= 1.0 are compatible with docker client 1.9, docker-compose 1.5 and php 5.6.
-The versions 2.0 is compatible with docker client >= 1.10, docker-compose >= 1.6 and php 5.6.
+The version 2.0 is compatible with docker client >= 1.10, docker-compose >= 1.6 and php 5.6.
 
 ## Contents
 
