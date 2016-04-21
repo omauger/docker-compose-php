@@ -122,7 +122,7 @@ class ComposeManager
     }
 
     /**
-     * Build service images
+     * Pull service images
      *
      * @param mixed   $composeFiles  The compose files names
      */
@@ -273,15 +273,9 @@ class ComposeManager
         $networking = '';
         $networkDriver = '';
 
-        # Add project name, and network options
+        # Add project name
         if ($composeFiles->getProjectName() != null) {
             $project = ' --project-name ' . $composeFiles->getProjectName();
-            if ($composeFiles->isNetworking()) {
-                $networking = ' --x-networking';
-                if ($composeFiles->getNetworkDriver() != null) {
-                    $networkDriver = ' --x-network-driver ' . $composeFiles->getNetworkDriver();
-                }
-            }
         }
 
         # Add files names
