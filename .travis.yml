@@ -8,9 +8,9 @@ services:
 before_install:
   - docker pull composer/composer:latest
   - docker pull jolicode/phaudit:latest
-  - docker version
 
 install:
+  - docker version
   - ./scripts/prepare.sh
 
 script:
