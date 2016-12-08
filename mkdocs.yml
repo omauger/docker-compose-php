@@ -1,4 +1,4 @@
-site_name: Docker-composer PHP
+site_name: Docker-compose PHP
 site_url:  http://docker-compose-php.readthedocs.org/
 site_description: A Docker-compose SDK in PHP
 repo_url: https://github.com/omauger/docker-compose-php
